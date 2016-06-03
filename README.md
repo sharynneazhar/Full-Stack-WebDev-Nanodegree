@@ -5,6 +5,15 @@ Learn how to create server-side, data-driven web applications that support any f
 <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_google.png" alt="Logo color google" /> <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_aws.png" alt="Logo color aws" /> <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_github.png" alt="Logo color github" /> <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_att.png" alt="Logo color att" /> 
 
 ### Syllabus
+- [Project: Movie Trailer](#project-movie-trailer)
+- [Project: Build a Portfolio](#project-build-a-portfolio)
+- [Project: Multi User Blog](#project-multi-user-blog)
+- [Project: Tournament Results](#project-tournament-results)
+- [Project: Item Catalog](#project-item-catalog)
+- [Project: Neighborhood Map](#project-neighborhood-map)
+- [Project: Design a Game](#project-design-a-game)
+- [Project: Linux Server Configuration](#project-linux-server-configuration) 
+
 ##### Project: Movie Trailer 
 You will write server-side code to store a list of your favorite movies, including box art imagery and a movie trailer URL. You will then serve this data as a web page allowing visitors to review their movies and watch the trailers.
 
