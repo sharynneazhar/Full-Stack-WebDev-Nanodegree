@@ -17,8 +17,6 @@ Learn how to create server-side, data-driven web applications that support any f
 ## Project Descriptions
 #### Project: Movie Trailer 
 You will write server-side code to store a list of your favorite movies, including box art imagery and a movie trailer URL. You will then serve this data as a web page allowing visitors to review their movies and watch the trailers.
-###### Feedback (06/01/2016)
-> "You have done a good job generating and displaying movies on screen. Using an api and adding movie details exceeds the specifications-- good job!"
 
 #### Project: Build a Portfolio
 You will be provided with a design mockup as a PDF-file and must replicate that design in HTML and CSS.
