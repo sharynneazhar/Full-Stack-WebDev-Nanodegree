@@ -20,7 +20,7 @@ class Handler(webapp2.RequestHandler):
 
 class MainHandler(Handler):
     def get(self):
-        self.render("rot13.html", rottedText="")
+        self.render("rot13.html", text="")
 
     def post(self):
         textToConvert = self.request.get('text')
