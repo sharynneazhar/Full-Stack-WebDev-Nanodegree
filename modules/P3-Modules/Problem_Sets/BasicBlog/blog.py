@@ -3,6 +3,7 @@ import re
 import jinja2
 import webapp2
 
+from string import letters
 from google.appengine.ext import db
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
@@ -10,6 +11,9 @@ jinja_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(template_dir),
     autoescape=True
 )
+
+def blog_key(name="default"):
+    return db.Key.from_path('blogs', name)
 
 class Handler(webapp2.RequestHandler):
     def write(self, *a, **kw):
@@ -22,47 +26,49 @@ class Handler(webapp2.RequestHandler):
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
 
-class Blog(db.Model):
-    created = db.DateProperty(auto_now_add = True)
+class Post(db.Model):
     subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
+    created = db.DateProperty(auto_now_add = True)
+    last_modified = db.DateTimeProperty(auto_now = True)
 
-class NewPostHandler(Handler):
+class BlogFront(Handler):
+    def get(self):
+        posts = db.GqlQuery("SELECT * FROM Post ORDER BY last_modified DESC LIMIT 10")
+        self.render("front.html", posts=posts)
+
+class BlogPostPage(Handler):
+    def get(self, post_id):
+        key = db.Key.from_path("Post", int(post_id), parent=blog_key())
+        post = db.get(key)
+
+        if not post:
+            self.error(404)
+            return
+
+        self.render("blogpost.html", post=post)
+
+class NewPostPage(Handler):
     def render_new(self, subject="", content="", error=""):
         self.render("newpost.html", subject=subject, content=content, error=error)
 
     def get(self):
-        self.render_new()
+        self.render("newpost.html")
 
     def post(self):
         subject = self.request.get("subject")
         content = self.request.get("content")
 
         if subject and content:
-            b = Blog(subject=subject, content=content)
-            b.put()
-            self.redirect("/");
+            p = Post(parent=blog_key(), subject=subject, content=content)
+            p.put()
+            self.redirect("/%s" % str(p.key().id()))
         else:
             error = "Please fill out all the fields"
-            self.render_new(subject, content, error=error)
-
-class BlogPostHandler(Handler):
-    def get(self):
-        blog_id = self.request.get('q')
-        blog = Blog.get_by_id(blog_id)
-        self.render("blogpost.html", blog=blog)
-
-class MainHandler(Handler):
-    def render_front(self, subject="", content="", created=""):
-        blogs = db.GqlQuery("SELECT * FROM Blog ORDER BY created DESC")
-        self.render("front.html", subject=subject, content=content, created=created, blogs=blogs)
-
-    def get(self):
-        self.render_front()
-
+            self.render("newpost.html", subject=subject, content=content, error=error)
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler),
-    ('/newpost', NewPostHandler),
-    ('/(\d+)', BlogPostHandler)
+    ('/?', BlogFront),
+    ('/([0-9]+)', BlogPostPage),
+    ('/newpost', NewPostPage)
 ], debug = True)
