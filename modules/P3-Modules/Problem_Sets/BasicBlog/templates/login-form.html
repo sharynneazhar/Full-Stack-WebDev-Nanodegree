@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <style type="text/css">
+    body {width: 200px;}
+    .error {color: red}
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin: 10px 0;
+    }
+    .submit-btn {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Login</h2>
+  <form method="post">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" name="username" value="{{username}}">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" name="password" value="">
+    </div>
+
+    <div class="error">
+      {{error}}
+    </div>
+
+    <input class="submit-btn" type="submit">
+  </form>
+</body>
+
+</html>
