@@ -133,7 +133,7 @@ class Post(db.Model):
 class BlogFront(BlogHandler):
     def get(self):
         posts = greetings = Post.all().order('-last_modified')
-        self.render('front.html', posts = posts)
+        self.render('front.html', posts=posts)
 
 class PostPage(BlogHandler):
     def get(self, post_id):

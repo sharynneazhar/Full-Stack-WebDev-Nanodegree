@@ -1,15 +1,30 @@
+<div class="error">
+  {{vote_error}}
+</div>
 <div class="post">
-  <div class="post-heading">
-    <div class="post-title">
-      {{p.subject}}
-    </div>
-
-    <div class="post-date">
-      {{p.author}}  |  {{p.created.strftime("%b %d, %Y")}}
-    </div>
+  <div class="post-votes">
+    <button type="button" name="button">
+      <img src="/static/arrow-up.png" alt="Like" />
+    </button>
+    <div class="votes">0</div>
+    <button type="button" name="button">
+      <img src="/static/arrow-down.png" alt="Dislike" />
+    </button>
   </div>
 
-  <div class="post-content">
-    {{p._render_text | safe}}
+  <div class="post-area">
+    <div class="post-heading">
+      <div class="post-title">
+        {{p.subject}}
+      </div>
+
+      <div class="post-date">
+        {{p.author}}  |  {{p.created.strftime("%b %d, %Y")}}
+      </div>
+    </div>
+
+    <div class="post-content">
+      {{p._render_text | safe}}
+    </div>
   </div>
 </div>
