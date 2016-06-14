@@ -131,3 +131,13 @@ ul > li > a {
 .post-content {
   margin-top: 5px;
 }
+
+.read-more {
+  margin-top: 10px;
+  text-align: right;
+}
+
+.read-more a {
+    text-decoration: none;
+    color: #3d9bfa;
+}

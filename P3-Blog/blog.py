@@ -27,7 +27,6 @@ SECRET_COOKIE = 'TKLTerO42XkHJ8c'
 ###################################
 #######  GENERAL FUNCTIONS  #######
 ###################################
-
 def render_env(template, **params):
     """ Gets the project templates and render with props to environment """
     t = jinja_env.get_template(template)
@@ -116,7 +115,7 @@ def blog_key(name = 'default'):
 class MainPageHandler(TemplateHandler):
     """ Shows all the posts sorted from latest modified first """
     def get(self):
-        posts = greetings = Post.all().order('-last_modified')
+        posts = Post.all().order('-last_modified')
         self.render('front.html', posts = posts)
 
 class WelcomePageHandler(TemplateHandler):
@@ -164,7 +163,9 @@ class NewPostHandler(TemplateHandler):
                      subject = subject,
                      content = content)
             p.put()
-            self.redirect('/%s' % str(p.key().id()))
+            post_id = str(p.key().id())
+            self.key = post_id
+            self.redirect('/%s' % post_id)
         else:
             error = "subject and content, please!"
             self.render("newpost.html",
