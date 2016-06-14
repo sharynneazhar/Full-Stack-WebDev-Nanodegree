@@ -109,7 +109,7 @@ ul > li > a {
 
 .post-date {
     align-self: center;
-    padding-top: 10px;
+    padding-top: 7px;
     color: #999;
 }
 
@@ -139,11 +139,11 @@ ul > li > a {
 }
 
 .post-content {
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
 .read-more {
-    margin-top: 10px;
+    margin-top: 20px;
     text-align: right;
 }
 

@@ -150,7 +150,6 @@ class Comment(db.Model):
 
     # TODO implement comment render
 
-
 class NewPostHandler(TemplateHandler):
     def get(self):
         if self.user:
@@ -195,6 +194,21 @@ class PermalinkHandler(TemplateHandler):
 
         self.render("permalink.html", post = post)
 
+class DeletePostHandler(TemplateHandler):
+    """ Delete blog post """
+    def get(self):
+        author = self.request.get('user')
+        post_id = self.request.get('id')
+        key = db.Key.from_path('Post', int(post_id), parent = blog_key())
+
+        if self.user.name == author:
+            db.delete(key)
+            msg = "Post deleted."
+            self.render("deletedpost.html", msg = msg)
+        else:
+            print "unauthorized"
+            msg = "You are not authorized to delete this post."
+            self.render('deletedpost.html', msg = msg)
 
 ###################################
 ########  USER MANAGEMENT  ########
@@ -326,6 +340,7 @@ class SignUpHandler(RegistrationHandler):
 app = webapp2.WSGIApplication([('/?', MainPageHandler),
                                ('/([0-9]+)', PermalinkHandler),
                                ('/newpost', NewPostHandler),
+                               ('/delete', DeletePostHandler),
                                ('/signup', SignUpHandler),
                                ('/login', LoginHandler),
                                ('/logout', LogoutHandler),
