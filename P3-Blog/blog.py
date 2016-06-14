@@ -194,21 +194,46 @@ class PermalinkHandler(TemplateHandler):
 
         self.render("permalink.html", post = post)
 
+class EditPostHandler(TemplateHandler):
+    """ Edits blog post """
+    def get(self):
+        post_id = self.request.get('id')
+        key = db.Key.from_path('Post', int(post_id), parent = blog_key())
+        post = db.get(key)
+
+        if self.user.name == post.author:
+            self.render('editpost.html', p = post)
+        else:
+            msg = "You are not authorized to edit this post."
+            self.render('message.html', msg = msg)
+
+    def post(self):
+        post_id = self.request.get('id')
+        new_content = self.request.get('editpost')
+        key = db.Key.from_path('Post', int(post_id), parent = blog_key())
+        p = db.get(key)
+
+        if new_content:
+            p.content = new_content
+            p.put()
+            self.redirect('/%s' % post_id)
+        else:
+            error = "Content cannot be empty."
+            self.render("editpost.html", p = p, error = error)
+
 class DeletePostHandler(TemplateHandler):
     """ Delete blog post """
     def get(self):
-        author = self.request.get('user')
         post_id = self.request.get('id')
         key = db.Key.from_path('Post', int(post_id), parent = blog_key())
+        post = db.get(key)
 
-        if self.user.name == author:
+        if self.user.name == post.author:
             db.delete(key)
-            msg = "Post deleted."
-            self.render("deletedpost.html", msg = msg)
+            self.render("message.html", msg = "Post deleted.")
         else:
-            print "unauthorized"
             msg = "You are not authorized to delete this post."
-            self.render('deletedpost.html', msg = msg)
+            self.render('message.html', msg = msg)
 
 ###################################
 ########  USER MANAGEMENT  ########
@@ -340,6 +365,7 @@ class SignUpHandler(RegistrationHandler):
 app = webapp2.WSGIApplication([('/?', MainPageHandler),
                                ('/([0-9]+)', PermalinkHandler),
                                ('/newpost', NewPostHandler),
+                               ('/edit', EditPostHandler),
                                ('/delete', DeletePostHandler),
                                ('/signup', SignUpHandler),
                                ('/login', LoginHandler),
