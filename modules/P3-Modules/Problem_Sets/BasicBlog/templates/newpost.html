@@ -1,90 +1,20 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>New Post</title>
+{% extends "base.html" %}
 
-        <style type="text/css">
-            body {
-                width: 80%;
-                margin: 50px auto;
-                font-family: sans-serif;
-            }
+{% block content %}
+  <h2>new post</h2>
+  <form method="post">
+    <label>
+      <div>subject</div>
+      <input type="text" name="subject" value="{{subject}}">
+    </label>
 
-            .header {
-                padding: 15px 0;
-            }
+    <label>
+      <div>blog</div>
+      <textarea name="content">{{content}}</textarea>
+    </label>
 
-            .title {
-                margin: 0;
-                font-size: 42px;
-                font-weight: 100;
-            }
+    <div class="error">{{error}}</div>
 
-            hr {
-                border-top: 3px solid #3d9bfa;
-                margin-bottom: 20px;
-            }
-
-            .form-group {
-                display: flex;
-                flex-direction: column;
-                margin-bottom: 30px;
-            }
-
-            label {
-                font-size: 18px;
-                margin-bottom: 15px;
-            }
-
-            .text {
-                font-size: 16px;
-                padding: 10px 5px;
-            }
-
-            .btn-area {
-                display: flex;
-                justify-content: center;
-                background-color: #3d9bfa;
-                height: 30px;
-                width: 90px;
-                padding: 8px;
-            }
-
-            .btn {
-                align-self: center;
-                border: none;
-                background-color: transparent;
-                font-size: 18px;
-                font-weight: 300;
-                color: #ffffff;
-            }
-
-            .error {
-                color: red;
-                margin: 10px 0;
-            }
-        </style>
-
-    </head>
-    <body>
-        <div class="header">
-            <p class="title">New Post</p>
-            <hr>
-        </div>
-        <form method="post">
-            <div class="form-group">
-                <label>Title:</label>
-                <input class="text" type="text" name="subject" value="{{subject}}">
-            </div>
-            <div class="form-group">
-                <label>Blog Content:</label>
-                <textarea class="text" name="content" rows="40" cols="60">{{content}}</textarea>
-            </div>
-            <div class="error">{{error}}</div>
-            <div class="btn-area">
-                <button class="btn" type="submit">Submit</button>
-            </div>
-        <form>
-    </body>
-</html>
+    <input type="submit">
+  </form>
+{% endblock %}

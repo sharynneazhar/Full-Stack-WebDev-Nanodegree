@@ -16,7 +16,7 @@ jinja_env = jinja2.Environment(
 
 # use hash and salt for better encryption
 def make_salt():
-    return ''.join(random.choic(string.letters) for x in xrange(5))
+    return ''.join(random.choice(string.letters) for x in xrange(5))
 
 def make_pw_hash(name, pw, salt=None):
     if not salt:
@@ -25,7 +25,7 @@ def make_pw_hash(name, pw, salt=None):
     return "%s|%s" % (h, salt)
 
 def valid_pw(name, pw, h):
-    salt = h.split('|')[1]
+    salt = h.split('|')[0]
     return h == make_pw_hash(name, pw, salt)
 
 # hashing with HMAC
