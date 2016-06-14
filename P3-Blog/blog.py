@@ -115,7 +115,7 @@ def blog_key(name = 'default'):
 class MainPageHandler(TemplateHandler):
     """ Shows all the posts sorted from latest modified first """
     def get(self):
-        posts = Post.all().order('-last_modified')
+        posts = Post.all().order('-modified')
         self.render('front.html', posts = posts)
 
 class WelcomePageHandler(TemplateHandler):
@@ -131,7 +131,7 @@ class Post(db.Model):
     subject = db.StringProperty(required = True)
     content = db.TextProperty(required = True)
     created = db.DateProperty(auto_now_add = True)
-    last_modified = db.DateTimeProperty(auto_now = True)
+    modified = db.DateTimeProperty(auto_now = True)
 
     def render(self):
         """
@@ -141,6 +141,15 @@ class Post(db.Model):
         """
         self._render_text = self.content.replace('\n', '<br>')
         return render_env("post.html", p=self)
+
+class Comment(db.Model):
+    """ Creates an entity to store comments in the GAE datastore """
+    author = db.StringProperty()
+    comment = db.TextProperty(required = True)
+    created = db.DateProperty(auto_now_add = True)
+
+    # TODO implement comment render
+
 
 class NewPostHandler(TemplateHandler):
     def get(self):
