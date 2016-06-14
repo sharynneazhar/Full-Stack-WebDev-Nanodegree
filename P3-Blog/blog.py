@@ -9,45 +9,89 @@ import webapp2
 from string import letters
 from google.appengine.ext import db
 
+# sets the home path to the templates folder
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+
+# points jinja2 environment to the templates directory with XML/HMTL escape
 jinja_env = jinja2.Environment(
     loader = jinja2.FileSystemLoader(template_dir),
-    autoescape=True
-)
+    autoescape=True)
 
-SECRET = 'TKLTerO42XkHJ8c'
+# variables constants
+USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+PASS_RE = re.compile(r"^.{3,20}$")
+EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
+SECRET_COOKIE = 'TKLTerO42XkHJ8c'
 
-def render_str(template, **params):
+
+###################################
+#######  GENERAL FUNCTIONS  #######
+###################################
+
+def render_env(template, **params):
+    """ Gets the project templates and render with props to environment """
     t = jinja_env.get_template(template)
     return t.render(params)
 
+
+###################################
+###### ENCRYPTION FUNCTIONS #######
+###################################
+
 def make_secure_val(val):
-    return '%s|%s' % (val, hmac.new(SECRET, val).hexdigest())
+    """ Pairs the cookie with secret string """
+    return '%s|%s' % (val, hmac.new(SECRET_COOKIE, val).hexdigest())
 
 def check_secure_val(secure_val):
+    """ Make sure the cookie is valid """
     val = secure_val.split('|')[0]
     if secure_val == make_secure_val(val):
         return val
 
-class BlogHandler(webapp2.RequestHandler):
+def make_salt(length = 5):
+    """ Generates a salt to pair with hash keys """
+    return ''.join(random.choice(letters) for x in xrange(length))
+
+def make_pw_hash(name, pw, salt = None):
+    """ Salt password if none exist, otherwise create hash """
+    if not salt:
+        salt = make_salt()
+    h = hashlib.sha256(name + pw + salt).hexdigest()
+    return '%s,%s' % (salt, h)
+
+def valid_pw(name, password, h):
+    """ Checks if a password is valid """
+    salt = h.split(',')[0]
+    return h == make_pw_hash(name, password, salt)
+
+
+###################################
+######## TEMPLATE HANDLER  ########
+###################################
+
+class TemplateHandler(webapp2.RequestHandler):
     def write(self, *a, **kw):
         self.response.out.write(*a, **kw)
 
-    def render_str(self, template, **params):
+    def render_tmpl(self, template, **params):
+        """ Passes the template and its parameters to jinja environment """
         params['user'] = self.user
-        return render_str(template, **params)
+        return render_env(template, **params)
 
     def render(self, template, **kw):
-        self.write(self.render_str(template, **kw))
+        """ Calls render_templ and render the jinja environment """
+        self.write(self.render_tmpl(template, **kw))
 
     def set_secure_cookie(self, name, val):
+        """ Creates a cookie based on a given name and value """
         cookie_val = make_secure_val(val)
         self.response.headers.add_header(
             'Set-Cookie',
             '%s=%s; Path=/' % (name, cookie_val))
 
-    def read_secure_cookie(self, name):
-        cookie_val = self.request.cookies.get(name)
+    def read_secure_cookie(self, cookie):
+        """ Returns the value of the cookie itself """
+        cookie_val = self.request.cookies.get(cookie)
         return cookie_val and check_secure_val(cookie_val)
 
     def login(self, user):
@@ -61,33 +105,96 @@ class BlogHandler(webapp2.RequestHandler):
         uid = self.read_secure_cookie('user_id')
         self.user = uid and User.by_id(int(uid))
 
-def render_post(response, post):
-    response.out.write('<b>' + post.subject + '</b><br>')
-    response.out.write(post.content)
 
-#### Main Page
-class MainPage(BlogHandler):
+###################################
+########  BLOG MANAGEMENT  ########
+###################################
+
+def blog_key(name = 'default'):
+    return db.Key.from_path('blogs', name)
+
+class MainPageHandler(TemplateHandler):
+    """ Shows all the posts sorted from latest modified first """
     def get(self):
-        self.write('Hello Udacity')
+        posts = greetings = Post.all().order('-last_modified')
+        self.render('front.html', posts = posts)
 
-#### User stuff
-def make_salt(length = 5):
-    return ''.join(random.choice(letters) for x in xrange(length))
+class WelcomePageHandler(TemplateHandler):
+    def get(self):
+        if self.user:
+            self.render('welcome.html', username = self.user.name)
+        else:
+            self.redirect('/signup')
 
-def make_pw_hash(name, pw, salt = None):
-    if not salt:
-        salt = make_salt()
-    h = hashlib.sha256(name + pw + salt).hexdigest()
-    return '%s,%s' % (salt, h)
+class Post(db.Model):
+    """ Creates an entity to store blog post data in the GAE datastore """
+    author = db.StringProperty()
+    subject = db.StringProperty(required = True)
+    content = db.TextProperty(required = True)
+    created = db.DateProperty(auto_now_add = True)
+    last_modified = db.DateTimeProperty(auto_now = True)
 
-def valid_pw(name, password, h):
-    salt = h.split(',')[0]
-    return h == make_pw_hash(name, password, salt)
+    def render(self):
+        """
+        Renders blog post to environment
+        _render_text replaces return characters with HTML breaks so that
+        it renders properly in the browser
+        """
+        self._render_text = self.content.replace('\n', '<br>')
+        return render_env("post.html", p=self)
+
+class NewPostHandler(TemplateHandler):
+    def get(self):
+        if self.user:
+            self.render("newpost.html")
+        else:
+            self.redirect("/login")
+
+    def post(self):
+        if not self.user:
+            self.redirect('/')
+
+        author = self.user.name
+        subject = self.request.get('subject')
+        content = self.request.get('content')
+
+        if subject and content:
+            p = Post(parent = blog_key(),
+                     author = author,
+                     subject = subject,
+                     content = content)
+            p.put()
+            self.redirect('/%s' % str(p.key().id()))
+        else:
+            error = "subject and content, please!"
+            self.render("newpost.html",
+                        author = author,
+                        subject = subject,
+                        content = content,
+                        error = error)
+
+class PermalinkHandler(TemplateHandler):
+    """ Sends user to the permalink page upon successful post submission """
+    def get(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent = blog_key())
+        post = db.get(key)
+
+        if not post:
+            self.error(404)
+            return
+
+        self.render("permalink.html", post = post)
+
+
+###################################
+########  USER MANAGEMENT  ########
+###################################
 
 def users_key(group = 'default'):
     return db.Key.from_path('users', group)
 
 class User(db.Model):
+    """ Creates an entity to store user data in the GAE datastore """
     name = db.StringProperty(required = True)
     pw_hash = db.StringProperty(required = True)
     email = db.StringProperty()
@@ -115,74 +222,46 @@ class User(db.Model):
         if u and valid_pw(name, pw, u.pw_hash):
             return u
 
-##### BLog stuff
-def blog_key(name = 'default'):
-    return db.Key.from_path('blogs', name)
-
-class Post(db.Model):
-    author = db.StringProperty()
-    subject = db.StringProperty(required = True)
-    content = db.TextProperty(required = True)
-    created = db.DateProperty(auto_now_add = True)
-    last_modified = db.DateTimeProperty(auto_now = True)
-
-    def render(self):
-        self._render_text = self.content.replace('\n', '<br>')
-        return render_str("post.html", p=self)
-
-class BlogFront(BlogHandler):
+class LoginHandler(TemplateHandler):
     def get(self):
-        posts = greetings = Post.all().order('-last_modified')
-        self.render('front.html', posts = posts)
-
-class PostPage(BlogHandler):
-    def get(self, post_id):
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
-
-        if not post:
-            self.error(404)
-            return
-
-        self.render("permalink.html", post = post)
-
-class NewPost(BlogHandler):
-    def get(self):
-        if self.user:
-            self.render("newpost.html")
-        else:
-            self.redirect("/login")
+        self.render('login-form.html')
 
     def post(self):
-        if not self.user:
-            self.redirect('/blog')
+        username = self.request.get('username')
+        password = self.request.get('password')
 
-        author = self.user.name
-        subject = self.request.get('subject')
-        content = self.request.get('content')
-
-        if subject and content:
-            p = Post(parent = blog_key(), author=author, subject=subject, content=content)
-            p.put()
-            self.redirect('/blog/%s' % str(p.key().id()))
+        u = User.login(username, password)
+        if u:
+            self.login(u)
+            self.redirect('/')
         else:
-            error = "subject and content, please!"
-            self.render("newpost.html", author=author, subject=subject, content=content, error=error)
+            msg = "Invalid login"
+            self.render('login-form.html', error = msg)
 
-#### Sign Up Page Handler
-USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+class LogoutHandler(TemplateHandler):
+    def get(self):
+        self.logout()
+        self.redirect('/signup')
+
+
+###################################
+######## USER REGISTRATION ########
+###################################
 def valid_username(username):
     return username and USER_RE.match(username)
 
-PASS_RE = re.compile(r"^.{3,20}$")
 def valid_password(password):
     return password and PASS_RE.match(password)
 
-EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 def valid_email(email):
     return not email or EMAIL_RE.match(email)
 
-class SignUp(BlogHandler):
+class RegistrationHandler(TemplateHandler):
+    """
+    Fist validates user information by REGEX
+    Then registers user to website
+    """
+
     def get(self):
         self.render("signup-form.html")
 
@@ -219,7 +298,7 @@ class SignUp(BlogHandler):
     def done(self, *a, **kw):
         raise NotImplementedError
 
-class Register(SignUp):
+class SignUpHandler(RegistrationHandler):
     def done(self):
         u = User.by_name(self.username)
         if u:
@@ -232,41 +311,13 @@ class Register(SignUp):
             self.login(u)
             self.redirect('/welcome')
 
-class Login(BlogHandler):
-    def get(self):
-        self.render('login-form.html')
 
-    def post(self):
-        username = self.request.get('username')
-        password = self.request.get('password')
-
-        u = User.login(username, password)
-        if u:
-            self.login(u)
-            self.redirect('/blog')
-        else:
-            msg = "Invalid login"
-            self.render('login-form.html', error = msg)
-
-class Logout(BlogHandler):
-    def get(self):
-        self.logout()
-        self.redirect('/signup')
-
-class Welcome(BlogHandler):
-    def get(self):
-        if self.user:
-            self.render('welcome.html', username = self.user.name)
-        else:
-            self.redirect('/signup')
-
-app = webapp2.WSGIApplication([
-    ('/', MainPage),
-    ('/welcome', Welcome),
-    ('/signup', Register),
-    ('/login', Login),
-    ('/logout', Logout),
-    ('/blog/?', BlogFront),
-    ('/blog/([0-9]+)', PostPage),
-    ('/blog/newpost', NewPost)
-], debug = True)
+# GAE app configs
+app = webapp2.WSGIApplication([('/?', MainPageHandler),
+                               ('/([0-9]+)', PermalinkHandler),
+                               ('/newpost', NewPostHandler),
+                               ('/signup', SignUpHandler),
+                               ('/login', LoginHandler),
+                               ('/logout', LogoutHandler),
+                               ('/welcome', WelcomePageHandler),
+                               ], debug = True)
