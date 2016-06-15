@@ -116,6 +116,11 @@ ul > li > a {
     font-weight: bold;
 }
 
+.post-title a {
+    text-decoration: none;
+    color: #3d9bfa;
+}
+
 .post-date {
     align-self: flex-end;
     color: #999;
@@ -150,18 +155,12 @@ ul > li > a {
     margin-top: 10px;
 }
 
-.read-more {
-    margin-top: 20px;
-    text-align: right;
-}
-
-.read-more a {
-    text-decoration: none;
-    color: #3d9bfa;
-}
-
 .comment-area {
     margin-top: 10px;
+}
+
+.comment-area form {
+    margin-bottom: 50px;
 }
 
 .comment-area label {
@@ -170,7 +169,7 @@ ul > li > a {
 }
 
 .comment-area textarea {
-    height: 100px;
+    height: 80px;
     width: 100%;
     margin-bottom: 10px;
 }
@@ -205,4 +204,13 @@ textarea[name="editpost"] {
     height: 300px;
     width: 100%;
     margin-bottom: 10px;
+}
+
+.comment-post {
+    margin-bottom: 30px;
+}
+
+.comment-post .author {
+    color: #3d9bfa;
+    margin-bottom: -10px;
 }

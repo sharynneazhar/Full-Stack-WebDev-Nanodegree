@@ -104,14 +104,6 @@ class TemplateHandler(webapp2.RequestHandler):
         uid = self.read_secure_cookie('user_id')
         self.user = uid and User.by_id(int(uid))
 
-
-###################################
-########  BLOG MANAGEMENT  ########
-###################################
-
-def blog_key(name = 'default'):
-    return db.Key.from_path('blogs', name)
-
 class MainPageHandler(TemplateHandler):
     """ Shows all the posts sorted from latest modified first """
     def get(self):
@@ -130,6 +122,13 @@ class WelcomePageHandler(TemplateHandler):
             self.render('welcome.html', username = self.user.name)
         else:
             self.redirect('/signup')
+
+###################################
+########  BLOG MANAGEMENT  ########
+###################################
+
+def blog_key(name = 'default'):
+    return db.Key.from_path('blogs', name)
 
 class Post(db.Model):
     """ Creates an entity to store blog post data in the GAE datastore """
@@ -151,10 +150,9 @@ class Post(db.Model):
 class Comment(db.Model):
     """ Creates an entity to store comments in the GAE datastore """
     author = db.StringProperty()
+    post_id = db.StringProperty(required = True)
     comment = db.TextProperty(required = True)
     created = db.DateProperty(auto_now_add = True)
-
-    # TODO implement comment render
 
 class NewPostHandler(TemplateHandler):
     def get(self):
@@ -181,7 +179,7 @@ class NewPostHandler(TemplateHandler):
             self.key = post_id
             self.redirect('/%s' % post_id)
         else:
-            error = "subject and content, please!"
+            error = "Please fill in all fields."
             self.render("newpost.html",
                         author = author,
                         subject = subject,
@@ -198,7 +196,30 @@ class PermalinkHandler(TemplateHandler):
             self.error(404)
             return
 
-        self.render("permalink.html", post = post)
+        comments = db.GqlQuery("SELECT * FROM Comment "
+                               + "WHERE post_id = :1 "
+                               + "ORDER BY created DESC",
+                               post_id)
+
+        self.render("permalink.html", post = post, comments = comments)
+
+    def post(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent = blog_key())
+        post = db.get(key)
+
+        author = self.user.name
+        comment = self.request.get('comment')
+
+        if comment:
+            c = Comment(author = author,
+                        post_id = post_id,
+                        comment = comment)
+            c.put()
+
+        # TODO fix the redirect to stay on same page
+        # TODO figure out how to refresh the page after post
+        self.redirect('/')
+
 
 class EditPostHandler(TemplateHandler):
     """ Edits blog post """
