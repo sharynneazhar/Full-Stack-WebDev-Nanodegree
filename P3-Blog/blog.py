@@ -290,7 +290,7 @@ class LoginHandler(TemplateHandler):
 class LogoutHandler(TemplateHandler):
     def get(self):
         self.logout()
-        self.redirect('/signup')
+        self.redirect('/login')
 
 
 ###################################
