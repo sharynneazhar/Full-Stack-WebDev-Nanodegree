@@ -116,7 +116,13 @@ class MainPageHandler(TemplateHandler):
     """ Shows all the posts sorted from latest modified first """
     def get(self):
         posts = Post.all().order('-modified')
-        self.render('front.html', posts = posts)
+
+        if self.user:
+            login = '<a href="/logout">hi ' + self.user.name + ', logout</a>'
+        else:
+            login = '<a href="/login">login</a>'
+
+        self.render('front.html', posts = posts, login = login)
 
 class WelcomePageHandler(TemplateHandler):
     def get(self):

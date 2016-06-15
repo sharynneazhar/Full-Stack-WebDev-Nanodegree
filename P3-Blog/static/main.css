@@ -14,6 +14,10 @@ h2 {
     margin-bottom: 20px;
 }
 
+.pull-right {
+    float: right;
+}
+
 .error {
     margin: 15px 0;
     color: red;
@@ -59,7 +63,7 @@ input[type=submit] {
 }
 
 hr {
-    margin-top: -12px;
+    margin-top: -15px;
     margin-bottom: 30px;
 }
 
@@ -70,6 +74,10 @@ ul {
 ul > li {
     display: inline-block;
     list-style: none;
+    margin-top: 5px;
+}
+
+ul > li:not(:last-child) {
     margin: 5px 20px 5px 0;
 }
 
@@ -109,8 +117,7 @@ ul > li > a {
 }
 
 .post-date {
-    align-self: center;
-    padding-top: 7px;
+    align-self: flex-end;
     color: #999;
 }
 
