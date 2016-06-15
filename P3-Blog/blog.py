@@ -152,7 +152,7 @@ class Comment(db.Model):
     author = db.StringProperty()
     post_id = db.StringProperty(required = True)
     comment = db.TextProperty(required = True)
-    created = db.DateProperty(auto_now_add = True)
+    created = db.DateTimeProperty(auto_now = True)
 
 class NewPostHandler(TemplateHandler):
     def get(self):
@@ -218,6 +218,7 @@ class PermalinkHandler(TemplateHandler):
 
         # TODO fix the redirect to stay on same page
         # TODO figure out how to refresh the page after post
+        # self.redirect('/%s' % post_id)
         self.redirect('/')
 
 
