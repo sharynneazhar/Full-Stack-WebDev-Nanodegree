@@ -19,6 +19,7 @@ class WelcomePageHandler(BaseHandler):
         else:
             self.redirect('/signup')
 
+
 ###################################
 ########  BLOG MANAGEMENT  ########
 ###################################
@@ -130,6 +131,45 @@ class DeletePostHandler(BaseHandler):
             msg = "You are not authorized to delete this post."
             self.render('message.html', msg = msg)
 
+class UpvoteHandler(BaseHandler):
+    """ Manages all the likes on a particular post """
+    def get(self):
+        if self.user:
+            post_id = self.request.get('id')
+            key = db.Key.from_path('Post', int(post_id), parent = blog_key())
+            post = db.get(key)
+
+            if post.author == self.user.name:
+                self.render("message.html", msg = "You cannot upvote your own post.")
+            elif self.user.name in post.voters:
+                self.redirect('/')
+            else:
+                post.votes += 1
+                post.voters.append(self.user.name)
+                post.put()
+                self.render("message.html", msg = "Thanks!")
+        else:
+            self.redirect('/login')
+
+class DownvoteHandler(BaseHandler):
+    """ Manages all the dislikes on a particular post """
+    def get(self):
+        if self.user:
+            post_id = self.request.get('id')
+            key = db.Key.from_path('Post', int(post_id), parent = blog_key())
+            post = db.get(key)
+
+            if post.author == self.user.name:
+                self.render("message.html", msg = "You cannot downvote your own post.")
+            elif self.user.name in post.voters:
+                self.redirect('/')
+            else:
+                post.votes -= 1
+                post.voters.append(self.user.name)
+                post.put()
+                self.render("message.html", msg = "Aww, sorry you didn't like that.")
+        else:
+            self.redirect('/login')
 
 ###################################
 ########  USER MANAGEMENT  ########
@@ -217,6 +257,8 @@ url_map = [
     ('/newpost', NewPostHandler),
     ('/edit', EditPostHandler),
     ('/delete', DeletePostHandler),
+    ('/upvote', UpvoteHandler),
+    ('/downvote', DownvoteHandler),
     ('/signup', SignUpHandler),
     ('/login', LoginHandler),
     ('/logout', LogoutHandler),

@@ -14,6 +14,10 @@ h2 {
   margin-bottom: 20px;
 }
 
+a {
+  text-decoration: none;
+}
+
 .pull-right {
   float: right;
 }
@@ -215,4 +219,10 @@ textarea[name="editpost"] {
 .comment-post .author {
   color: #3d9bfa;
   margin-bottom: -10px;
+}
+
+.comment-post a {
+  margin-left: 8px;
+  font-style: italic;
+  color: #ccc;
 }

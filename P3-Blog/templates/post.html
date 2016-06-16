@@ -3,13 +3,13 @@
 </div>
 <div class="post">
   <div class="post-votes">
-    <button type="button" name="button">
+    <a href="/upvote?id={{p.key().id()}}">
       <img src="/static/img/arrow-up.png" alt="Like" />
-    </button>
-    <div class="votes">0</div>
-    <button type="button" name="button">
+    </a>
+    <div class="votes">{{p.votes}}</div>
+    <a href="/downvote?id={{p.key().id()}}">
       <img src="/static/img/arrow-down.png" alt="Dislike" />
-    </button>
+    </a>
   </div>
 
   <div class="post-area">

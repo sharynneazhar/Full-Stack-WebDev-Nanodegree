@@ -44,6 +44,8 @@ class Post(db.Model):
     content = db.TextProperty(required = True)
     created = db.DateProperty(auto_now_add = True)
     modified = db.DateTimeProperty(auto_now = True)
+    votes = db.IntegerProperty(default=0)
+    voters = db.StringListProperty()
 
     def render(self):
         """

@@ -28,7 +28,11 @@
     {% if comments %}
       {% for comment in comments %}
         <div class="comment-post">
-          <p class="author">submitted by {{comment.author}}</p>
+          <p class="author">
+            submitted by {{comment.author}}
+            <a href="#">-edit</a>
+            <a href="#">-delete</a>
+          </p>
           <p>{{comment.comment}}</p>
         </div>
       {% endfor %}
