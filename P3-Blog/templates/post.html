@@ -4,11 +4,11 @@
 <div class="post">
   <div class="post-votes">
     <button type="button" name="button">
-      <img src="/static/arrow-up.png" alt="Like" />
+      <img src="/static/img/arrow-up.png" alt="Like" />
     </button>
     <div class="votes">0</div>
     <button type="button" name="button">
-      <img src="/static/arrow-down.png" alt="Dislike" />
+      <img src="/static/img/arrow-down.png" alt="Dislike" />
     </button>
   </div>
 
@@ -17,11 +17,8 @@
       <div class="post-title">
         <a href="/{{p.key().id()}}">{{p.subject}}</a>
       </div>
-
       <div class="post-date">
-        {{p.author}}
-        &nbsp;|&nbsp;
-        {{p.created.strftime("%b %d, %Y")}}
+        submitted by {{p.author}}
       </div>
     </div>
 

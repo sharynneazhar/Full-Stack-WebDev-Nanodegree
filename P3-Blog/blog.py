@@ -1,73 +1,12 @@
-import os
-import re
-import random
-import hashlib
-import hmac
-import jinja2
 import webapp2
 
-from string import letters
-from google.appengine.ext import db
-
-# sets the home path to the templates folder
-template_dir = os.path.join(os.path.dirname(__file__), 'templates')
-
-# points jinja2 environment to the templates directory with XML/HMTL escape
-jinja_env = jinja2.Environment(
-    loader = jinja2.FileSystemLoader(template_dir),
-    autoescape=True)
-
-# variables constants
-USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-PASS_RE = re.compile(r"^.{3,20}$")
-EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
-SECRET_COOKIE = 'TKLTerO42XkHJ8c'
-
-
-###################################
-#######  GENERAL FUNCTIONS  #######
-###################################
-def render_env(template, **params):
-    """ Gets the project templates and render with props to environment """
-    t = jinja_env.get_template(template)
-    return t.render(params)
-
-
-###################################
-###### ENCRYPTION FUNCTIONS #######
-###################################
-
-def make_secure_val(val):
-    """ Pairs the cookie with secret string """
-    return '%s|%s' % (val, hmac.new(SECRET_COOKIE, val).hexdigest())
-
-def check_secure_val(secure_val):
-    """ Make sure the cookie is valid """
-    val = secure_val.split('|')[0]
-    if secure_val == make_secure_val(val):
-        return val
-
-def make_salt(length = 5):
-    """ Generates a salt to pair with hash keys """
-    return ''.join(random.choice(letters) for x in xrange(length))
-
-def make_pw_hash(name, pw, salt = None):
-    """ Salt password if none exist, otherwise create hash """
-    if not salt:
-        salt = make_salt()
-    h = hashlib.sha256(name + pw + salt).hexdigest()
-    return '%s,%s' % (salt, h)
-
-def valid_pw(name, password, h):
-    """ Checks if a password is valid """
-    salt = h.split(',')[0]
-    return h == make_pw_hash(name, password, salt)
-
+from lib.regex import *
+from lib.template import *
+from lib.datastore import *
 
 ###################################
 ######## TEMPLATE HANDLER  ########
 ###################################
-
 class TemplateHandler(webapp2.RequestHandler):
     def write(self, *a, **kw):
         self.response.out.write(*a, **kw)
@@ -126,34 +65,6 @@ class WelcomePageHandler(TemplateHandler):
 ###################################
 ########  BLOG MANAGEMENT  ########
 ###################################
-
-def blog_key(name = 'default'):
-    return db.Key.from_path('blogs', name)
-
-class Post(db.Model):
-    """ Creates an entity to store blog post data in the GAE datastore """
-    author = db.StringProperty()
-    subject = db.StringProperty(required = True)
-    content = db.TextProperty(required = True)
-    created = db.DateProperty(auto_now_add = True)
-    modified = db.DateTimeProperty(auto_now = True)
-
-    def render(self):
-        """
-        Renders blog post to environment
-        _render_text replaces return characters with HTML breaks so that
-        it renders properly in the browser
-        """
-        self._render_text = self.content.replace('\n', '<br>')
-        return render_env("post.html", p=self)
-
-class Comment(db.Model):
-    """ Creates an entity to store comments in the GAE datastore """
-    author = db.StringProperty()
-    post_id = db.StringProperty(required = True)
-    comment = db.TextProperty(required = True)
-    created = db.DateTimeProperty(auto_now = True)
-
 class NewPostHandler(TemplateHandler):
     def get(self):
         if self.user:
@@ -221,7 +132,6 @@ class PermalinkHandler(TemplateHandler):
         # self.redirect('/%s' % post_id)
         self.redirect('/')
 
-
 class EditPostHandler(TemplateHandler):
     """ Edits blog post """
     def get(self):
@@ -263,42 +173,10 @@ class DeletePostHandler(TemplateHandler):
             msg = "You are not authorized to delete this post."
             self.render('message.html', msg = msg)
 
+
 ###################################
 ########  USER MANAGEMENT  ########
 ###################################
-
-def users_key(group = 'default'):
-    return db.Key.from_path('users', group)
-
-class User(db.Model):
-    """ Creates an entity to store user data in the GAE datastore """
-    name = db.StringProperty(required = True)
-    pw_hash = db.StringProperty(required = True)
-    email = db.StringProperty()
-
-    @classmethod
-    def by_id(cls, uid):
-        return User.get_by_id(uid, parent = users_key())
-
-    @classmethod
-    def by_name(cls, name):
-        u = User.all().filter('name =', name).get()
-        return u
-
-    @classmethod
-    def register(cls, name, pw, email = None):
-        pw_hash = make_pw_hash(name, pw)
-        return User(parent = users_key(),
-                    name = name,
-                    pw_hash = pw_hash,
-                    email = email)
-
-    @classmethod
-    def login(cls, name, pw):
-        u = cls.by_name(name)
-        if u and valid_pw(name, pw, u.pw_hash):
-            return u
-
 class LoginHandler(TemplateHandler):
     def get(self):
         self.render('login-form.html')
@@ -319,19 +197,6 @@ class LogoutHandler(TemplateHandler):
     def get(self):
         self.logout()
         self.redirect('/login')
-
-
-###################################
-######## USER REGISTRATION ########
-###################################
-def valid_username(username):
-    return username and USER_RE.match(username)
-
-def valid_password(password):
-    return password and PASS_RE.match(password)
-
-def valid_email(email):
-    return not email or EMAIL_RE.match(email)
 
 class RegistrationHandler(TemplateHandler):
     """
@@ -389,14 +254,16 @@ class SignUpHandler(RegistrationHandler):
             self.redirect('/welcome')
 
 
-# GAE app configs
-app = webapp2.WSGIApplication([('/?', MainPageHandler),
-                               ('/([0-9]+)', PermalinkHandler),
-                               ('/newpost', NewPostHandler),
-                               ('/edit', EditPostHandler),
-                               ('/delete', DeletePostHandler),
-                               ('/signup', SignUpHandler),
-                               ('/login', LoginHandler),
-                               ('/logout', LogoutHandler),
-                               ('/welcome', WelcomePageHandler),
-                               ], debug = True)
+url_map = [
+    ('/?', MainPageHandler),
+    ('/([0-9]+)', PermalinkHandler),
+    ('/newpost', NewPostHandler),
+    ('/edit', EditPostHandler),
+    ('/delete', DeletePostHandler),
+    ('/signup', SignUpHandler),
+    ('/login', LoginHandler),
+    ('/logout', LogoutHandler),
+    ('/welcome', WelcomePageHandler),
+]
+
+app = webapp2.WSGIApplication(url_map, debug = True)
