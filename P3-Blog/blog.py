@@ -3,7 +3,7 @@ from lib.base import *
 class MainPageHandler(BaseHandler):
     """ Shows all the posts sorted from latest modified first """
     def get(self):
-        posts = Post.all().order('-modified')
+        posts = Post.all().order('-created')
 
         if self.user:
             login = '<a href="/logout">hi ' + self.user.name + ', logout</a>'
@@ -181,11 +181,20 @@ class UpvoteHandler(BaseHandler):
 
             if post.author == self.user.name:
                 self.render("message.html", msg = "You cannot upvote your own post.")
-            elif self.user.name in post.voters:
-                self.redirect('/')
+            elif self.user.name in post.upvoters:
+                post.votes -= 1
+                post.upvoters.remove(self.user.name)
+                post.put()
+                self.render("message.html", msg = "Aww, sorry you changed your mind!")
+            elif self.user.name in post.downvoters:
+                post.votes += 2
+                post.downvoters.remove(self.user.name)
+                post.upvoters.append(self.user.name)
+                post.put()
+                self.render("message.html", msg = "Thanks!")
             else:
                 post.votes += 1
-                post.voters.append(self.user.name)
+                post.upvoters.append(self.user.name)
                 post.put()
                 self.render("message.html", msg = "Thanks!")
         else:
@@ -201,11 +210,20 @@ class DownvoteHandler(BaseHandler):
 
             if post.author == self.user.name:
                 self.render("message.html", msg = "You cannot downvote your own post.")
-            elif self.user.name in post.voters:
-                self.redirect('/')
+            elif self.user.name in post.downvoters:
+                post.votes += 1
+                post.downvoters.remove(self.user.name)
+                post.put()
+                self.render("message.html", msg = "Thanks for changing your mind!")
+            elif self.user.name in post.upvoters:
+                post.votes -= 2
+                post.upvoters.remove(self.user.name)
+                post.downvoters.append(self.user.name)
+                post.put()
+                self.render("message.html", msg = "Aww, sorry you didn't like that.")
             else:
                 post.votes -= 1
-                post.voters.append(self.user.name)
+                post.downvoters.append(self.user.name)
                 post.put()
                 self.render("message.html", msg = "Aww, sorry you didn't like that.")
         else:
