@@ -131,6 +131,46 @@ class DeletePostHandler(BaseHandler):
             msg = "You are not authorized to delete this post."
             self.render('message.html', msg = msg)
 
+class EditCommentHandler(BaseHandler):
+    """ Edits user comments """
+    def get(self):
+        comment_id = self.request.get('id')
+        key = db.Key.from_path('Comment', int(comment_id))
+        comment = db.get(key)
+
+        if self.user.name == comment.author:
+            self.render("editcomment.html", comment = comment)
+        else:
+            msg = "You are not authorized to edit this comment."
+            self.render("message.html", msg = msg)
+
+    def post(self):
+        comment_id = self.request.get('id')
+        edit_comment = self.request.get('editcomment')
+        key = db.Key.from_path('Comment', int(comment_id))
+        comment = db.get(key)
+
+        if edit_comment:
+            comment.comment = edit_comment
+            comment.put()
+            self.render("message.html", msg = "Comment edited.")
+        else:
+            self.render("message.html", msg = "An error occurred, try again later.")
+
+class DeleteCommentHandler(BaseHandler):
+    """ Deletes a comment """
+    def get(self):
+        comment_id = self.request.get('id')
+        key = db.Key.from_path('Comment', int(comment_id))
+        comment = db.get(key)
+
+        if self.user.name == comment.author:
+            db.delete(key)
+            self.render("message.html", msg = "Comment deleted.")
+        else:
+            msg = "You are not authorized to delete this comment."
+            self.render('message.html', msg = msg)
+
 class UpvoteHandler(BaseHandler):
     """ Manages all the likes on a particular post """
     def get(self):
@@ -257,6 +297,8 @@ url_map = [
     ('/newpost', NewPostHandler),
     ('/edit', EditPostHandler),
     ('/delete', DeletePostHandler),
+    ('/editcomment', EditCommentHandler),
+    ('/deletecomment', DeleteCommentHandler),
     ('/upvote', UpvoteHandler),
     ('/downvote', DownvoteHandler),
     ('/signup', SignUpHandler),

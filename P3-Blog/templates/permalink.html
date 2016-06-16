@@ -30,8 +30,8 @@
         <div class="comment-post">
           <p class="author">
             submitted by {{comment.author}}
-            <a href="#">-edit</a>
-            <a href="#">-delete</a>
+            <a href="/editcomment?id={{comment.key().id()}}">-edit</a>
+            <a href="/deletecomment?id={{comment.key().id()}}">-delete</a>
           </p>
           <p>{{comment.comment}}</p>
         </div>
