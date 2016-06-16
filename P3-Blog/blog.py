@@ -93,15 +93,18 @@ class PermalinkHandler(BaseHandler):
 class EditPostHandler(BaseHandler):
     """ Edits blog post """
     def get(self):
-        post_id = self.request.get('id')
-        key = db.Key.from_path('Post', int(post_id), parent = blog_key())
-        post = db.get(key)
-
-        if self.user.name == post.author:
-            self.render('editpost.html', p = post)
+        if not self.user:
+            self.redirect("/login")
         else:
-            msg = "You are not authorized to edit this post."
-            self.render('message.html', msg = msg)
+            post_id = self.request.get('id')
+            key = db.Key.from_path('Post', int(post_id), parent = blog_key())
+            post = db.get(key)
+
+            if self.user.name == post.author:
+                self.render('editpost.html', p = post)
+            else:
+                msg = "You are not authorized to edit this post."
+                self.render('message.html', msg = msg)
 
     def post(self):
         post_id = self.request.get('id')
@@ -120,29 +123,35 @@ class EditPostHandler(BaseHandler):
 class DeletePostHandler(BaseHandler):
     """ Delete blog post """
     def get(self):
-        post_id = self.request.get('id')
-        key = db.Key.from_path('Post', int(post_id), parent = blog_key())
-        post = db.get(key)
-
-        if self.user.name == post.author:
-            db.delete(key)
-            self.render("message.html", msg = "Post deleted.")
+        if not self.user:
+            self.redirect("/login")
         else:
-            msg = "You are not authorized to delete this post."
-            self.render('message.html', msg = msg)
+            post_id = self.request.get('id')
+            key = db.Key.from_path('Post', int(post_id), parent = blog_key())
+            post = db.get(key)
+
+            if self.user.name == post.author:
+                db.delete(key)
+                self.render("message.html", msg = "Post deleted.")
+            else:
+                msg = "You are not authorized to delete this post."
+                self.render('message.html', msg = msg)
 
 class EditCommentHandler(BaseHandler):
     """ Edits user comments """
     def get(self):
-        comment_id = self.request.get('id')
-        key = db.Key.from_path('Comment', int(comment_id))
-        comment = db.get(key)
-
-        if self.user.name == comment.author:
-            self.render("editcomment.html", comment = comment)
+        if not self.user:
+            self.redirect("/login")
         else:
-            msg = "You are not authorized to edit this comment."
-            self.render("message.html", msg = msg)
+            comment_id = self.request.get('id')
+            key = db.Key.from_path('Comment', int(comment_id))
+            comment = db.get(key)
+
+            if self.user.name == comment.author:
+                self.render("editcomment.html", comment = comment)
+            else:
+                msg = "You are not authorized to edit this comment."
+                self.render("message.html", msg = msg)
 
     def post(self):
         comment_id = self.request.get('id')
@@ -160,16 +169,19 @@ class EditCommentHandler(BaseHandler):
 class DeleteCommentHandler(BaseHandler):
     """ Deletes a comment """
     def get(self):
-        comment_id = self.request.get('id')
-        key = db.Key.from_path('Comment', int(comment_id))
-        comment = db.get(key)
-
-        if self.user.name == comment.author:
-            db.delete(key)
-            self.render("message.html", msg = "Comment deleted.")
+        if not self.user:
+            self.redirect("/login")
         else:
-            msg = "You are not authorized to delete this comment."
-            self.render('message.html', msg = msg)
+            comment_id = self.request.get('id')
+            key = db.Key.from_path('Comment', int(comment_id))
+            comment = db.get(key)
+
+            if self.user.name == comment.author:
+                db.delete(key)
+                self.render("message.html", msg = "Comment deleted.")
+            else:
+                msg = "You are not authorized to delete this comment."
+                self.render('message.html', msg = msg)
 
 class UpvoteHandler(BaseHandler):
     """ Manages all the likes on a particular post """
