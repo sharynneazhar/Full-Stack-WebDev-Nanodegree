@@ -62,8 +62,8 @@ class PermalinkHandler(BaseHandler):
         post = db.get(key)
 
         if not post:
-            self.error(404)
-            return
+            msg = "Oops! Something went wrong, please try again later."
+            self.render("message.html", msg = msg)
 
         comments = db.GqlQuery("SELECT * FROM Comment "
                                + "WHERE post_id = :1 "
@@ -107,18 +107,21 @@ class EditPostHandler(BaseHandler):
                 self.render('message.html', msg = msg)
 
     def post(self):
-        post_id = self.request.get('id')
-        new_content = self.request.get('editpost')
-        key = db.Key.from_path('Post', int(post_id), parent = blog_key())
-        p = db.get(key)
-
-        if new_content:
-            p.content = new_content
-            p.put()
-            self.redirect('/%s' % post_id)
+        if not self.user:
+            self.redirect("/login")
         else:
-            error = "Content cannot be empty."
-            self.render("editpost.html", p = p, error = error)
+            post_id = self.request.get('id')
+            new_content = self.request.get('editpost')
+            key = db.Key.from_path('Post', int(post_id), parent = blog_key())
+            p = db.get(key)
+
+            if new_content:
+                p.content = new_content
+                p.put()
+                self.redirect('/%s' % post_id)
+            else:
+                error = "Content cannot be empty."
+                self.render("editpost.html", p = p, error = error)
 
 class DeletePostHandler(BaseHandler):
     """ Delete blog post """
@@ -154,17 +157,20 @@ class EditCommentHandler(BaseHandler):
                 self.render("message.html", msg = msg)
 
     def post(self):
-        comment_id = self.request.get('id')
-        edit_comment = self.request.get('editcomment')
-        key = db.Key.from_path('Comment', int(comment_id))
-        comment = db.get(key)
-
-        if edit_comment:
-            comment.comment = edit_comment
-            comment.put()
-            self.render("message.html", msg = "Comment edited.")
+        if not self.user:
+            self.redirect("/login")
         else:
-            self.render("message.html", msg = "An error occurred, try again later.")
+            comment_id = self.request.get('id')
+            edit_comment = self.request.get('editcomment')
+            key = db.Key.from_path('Comment', int(comment_id))
+            comment = db.get(key)
+
+            if edit_comment:
+                comment.comment = edit_comment
+                comment.put()
+                self.render("message.html", msg = "Comment edited.")
+            else:
+                self.render("message.html", msg = "An error occurred, try again later.")
 
 class DeleteCommentHandler(BaseHandler):
     """ Deletes a comment """
