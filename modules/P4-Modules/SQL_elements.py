@@ -14,9 +14,7 @@ select count(*) as num, species
     order by num desc
 '''
 
-
---------------------------------------------------------------------------------------------
-
+# --------------------------------------------------------------------------------------------
 
 #
 # Insert a newborn baby opossum into the animals table and verify that it's been added.
@@ -34,9 +32,7 @@ SELECT_QUERY = "select name, birthdate from animals where species = 'opossums';"
 
 INSERT_QUERY = "insert into animals values ('Wibble', 'opossum', '2016-06-16');"
 
-
---------------------------------------------------------------------------------------------
-
+# --------------------------------------------------------------------------------------------
 
 #
 #
@@ -53,9 +49,7 @@ select name
         and diet.food = 'fish'
 '''
 
-
---------------------------------------------------------------------------------------------
-
+# --------------------------------------------------------------------------------------------
 
 #
 # Find the one food that is eaten by only one animal.
@@ -72,9 +66,7 @@ select food, count(animals.name) as num
     having num = 1
 '''
 
-
---------------------------------------------------------------------------------------------
-
+# --------------------------------------------------------------------------------------------
 
 #
 # List all the taxonomic orders, using their common names, sorted by the number of
