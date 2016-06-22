@@ -10,9 +10,16 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-def query_restaurants():
+def restaurants():
     results = session.query(Restaurant.name)\
         .order_by(Restaurant.name.asc())\
         .all()
+
+    return results
+
+def restaurants_by_id(id):
+    results = session.query(Restaurant)\
+        .filter_by(id)\
+        .one()
 
     return results
