@@ -9,3 +9,4 @@ __pycache__/
 # misc
 */.vagrant
 modules/vagrant/.vagrant
+.vagrant
