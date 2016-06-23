@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy import func
+from sqlalchemy.sql import collate
 from sqlalchemy.orm import sessionmaker
 
 from database_setup import Base, Restaurant, MenuItem
@@ -11,15 +12,11 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 def restaurants():
-    results = session.query(Restaurant.name)\
-        .order_by(Restaurant.name.asc())\
+    return session.query(Restaurant)\
+        .order_by(collate(Restaurant.name, 'NOCASE'))\
         .all()
 
-    return results
-
-def restaurants_by_id(id):
-    results = session.query(Restaurant)\
-        .filter_by(id)\
+def restaurants_by_id(restaurant_id):
+    return session.query(Restaurant)\
+        .filter_by(id=restaurant_id)\
         .one()
-
-    return results

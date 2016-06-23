@@ -1,10 +1,10 @@
+import cgi
+import query
+
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 from database_setup import Base, Restaurant, MenuItem
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
-import cgi
-import query
 
 # Create session and connect to DB
 engine = create_engine('sqlite:///restaurantmenu.db')
@@ -20,21 +20,22 @@ class webServerHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
 
-                output = ""
-                output += "<html><body>"
-                output += "<a href=\"/restaurants/new\">Add a new restaurant</a>"
+                content = ""
+                restaurants = query.restaurants()
+                for restaurant in restaurants:
+                    content += '''
+                        <h2>{name}</h2>
+                        <a href='/restaurants/{id}/edit'>Edit</a>
+                        <a href='/restaurants/{id}/delete'>Delete</a>
+                    '''.format(name=restaurant.name, id=restaurant.id)
 
-                results = query.restaurants()
-                for item in results:
-                    output += '''
-                        <div>
-                            <h3>{name}</h3>
-                            <a href=\"/restaurants/%s/edit\">Edit </a>"
-                            <a href=\"#\">Delete</a>
-                        </div>
-                    '''.format(name=item[0]) % restaurant.id
+                output = '''
+                    <html><body>
+                        <a href='/restaurants/new'>Make a New Restaurant Here</a>
+                        %s
+                    </body></html>
+                ''' % content
 
-                output += "</body></html>"
                 self.wfile.write(output)
                 return
 
@@ -43,42 +44,59 @@ class webServerHandler(BaseHTTPRequestHandler):
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
 
-                output = ""
-                output += '''
-                    <html>
-                        <body>
-                            <h2>Add a new restaurant</h2>
-                            <form action=\"/restaurants/new\" method=\"POST\" enctype=\"multipart/form-data\">
-                                <input type=\"text\" name=\"newRestaurantName" />
-                                <input type=\"submit\" value=\"Add\" />
-                            </form>
-                        </body>
-                    </html>
+                output = '''
+                    <html><body>
+                    <h2>Make a Restaurant</h2>
+                    <form method='POST' enctype='multipart/form-data' action='restaurants/new'>
+                        <input name='newRestaurantName' type='text' placeholder='New Restaurant Name' />
+                        <input type='submit' value='Create' />
+                    </form>
+                    </body></html>
                 '''
+
                 self.wfile.write(output)
                 return
 
             if self.path.endswith("/edit"):
-                restaurantIDPath = self.path.split("/")[2]
-                restaurantQuery = session.query(Restaurant).filter_by(
-                    id=restaurantIDPath).one()
-                if restaurantQuery:
+                restaurantId = self.path.split("/")[2]
+                restaurant = query.restaurants_by_id(restaurantId)
+                if restaurant:
                     self.send_response(200)
                     self.send_header('Content-type', 'text/html')
                     self.end_headers()
-                    output = "<html><body>"
-                    output += "<h1>"
-                    output += restaurantQuery.name
-                    output += "</h1>"
-                    output += '''
-                        <form method=\"POST\" enctype=\"multipart/form-data\" action=\"/restaurants/%s/edit\">
-                            <input name=\"newRestaurantName\" type=\"text\" placeholder=\"%s\"> 
-                            <input type=\"submit\" value=\"Rename\">
-                        </form>
-                    ''' % (restaurantIDPath, restaurantQuery.name)
-                    output += "</body></html>"
+
+                    output = '''
+                        <html><body>
+                            <h2>%s</h2>
+                            <form method='POST' enctype='multipart/form-data' action='/restaurants/%s/edit'>
+                                <input type='text' name='newRestaurantName' placeholder='%s' />
+                                <input type='submit' value='Rename' />
+                            </form>
+                        </body></html>
+                    ''' % (restaurant.name, restaurantId, restaurant.name)
 
                     self.wfile.write(output)
+                    return
+
+            if self.path.endswith("/delete"):
+                restaurantId = self.path.split("/")[2]
+                restaurant = query.restaurants_by_id(restaurantId)
+                if restaurant:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'text/html')
+                    self.end_headers()
+
+                    output = '''
+                        <html><body>
+                            <h2>Are you sure you want to delete %s?</h2>
+                            <form method='POST' enctype='multipart/form-data' action='/restaurants/%s/delete'>
+                                <input type='submit' value='Delete' />
+                            </form>
+                        </body></html>
+                    ''' % (restaurant.name, restaurantId)
+
+                    self.wfile.write(output)
+                    return
 
         except IOError:
             self.send_error(404, 'File Not Found: %s' % self.path)
@@ -90,10 +108,10 @@ class webServerHandler(BaseHTTPRequestHandler):
                     self.headers.getheader('content-type'))
                 if ctype == 'multipart/form-data':
                     fields = cgi.parse_multipart(self.rfile, pdict)
-                    messagecontent = fields.get("newRestaurantName")
+                    param = fields.get('newRestaurantName')
 
                     # Create new Restaurant Object
-                    newRestaurant = Restaurant(name=messagecontent[0])
+                    newRestaurant = Restaurant(name=param[0])
                     session.add(newRestaurant)
                     session.commit()
 
@@ -105,33 +123,49 @@ class webServerHandler(BaseHTTPRequestHandler):
             if self.path.endswith("/edit"):
                 ctype, pdict = cgi.parse_header(
                     self.headers.getheader('content-type'))
+
                 if ctype == 'multipart/form-data':
                     fields = cgi.parse_multipart(self.rfile, pdict)
-                    messagecontent = fields.get('newRestaurantName')
-                    restaurantIDPath = self.path.split("/")[2]
+                    param = fields.get('newRestaurantName')
 
-                    restaurantQuery = query.restaurants_by_id(restaurantIDPath)
-                    if restaurantQuery != []:
-                        restaurantQuery.name = messagecontent[0]
-                        session.add(restaurantQuery)
+                    restaurantId = self.path.split("/")[2]
+                    restaurant = session.query(Restaurant)\
+                        .filter_by(id=restaurantId)\
+                        .one()
+
+                    if restaurant:
+                        restaurant.name = param[0]
+                        session.add(restaurant)
                         session.commit()
                         self.send_response(301)
                         self.send_header('Content-type', 'text/html')
                         self.send_header('Location', '/restaurants')
                         self.end_headers()
 
+            if self.path.endswith("/delete"):
+                restaurantId = self.path.split("/")[2]
+                restaurant = session.query(Restaurant)\
+                    .filter_by(id=restaurantId)\
+                    .one()
+
+                if restaurant:
+                    session.delete(restaurant)
+                    session.commit()
+                    self.send_response(301)
+                    self.send_header('Content-type', 'text/html')
+                    self.send_header('Location', '/restaurants')
+                    self.end_headers()
+
         except:
             pass
 
-
 def main():
     try:
-        port = 8080
-        server = HTTPServer(('', port), webServerHandler)
-        print "Web Server running on port %s" % port
+        server = HTTPServer(('', 8080), webServerHandler)
+        print '# Web server started...'
         server.serve_forever()
     except KeyboardInterrupt:
-        print " ^C entered, stopping web server...."
+        print '# Shutting down server...'
         server.socket.close()
 
 if __name__ == '__main__':
