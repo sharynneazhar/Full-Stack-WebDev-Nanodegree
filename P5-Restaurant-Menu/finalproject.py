@@ -26,6 +26,7 @@ def showRestaurants():
     restaurants = session.query(Restaurant)\
         .order_by(collate(Restaurant.name, 'NOCASE'))\
         .all()
+
     return render_template('restaurant.html', restaurants=restaurants)
 
 # Add new restaurant
@@ -49,9 +50,14 @@ def editRestaurant(restaurant_id):
         .one()
 
     if request.method == 'POST':
-        pass
+        name = request.form['name']
+        restaurant.name = name
+        session.add(restaurant)
+        session.commit()
+        flash('Successfully renamed restaurant to %s' % name)
+        return redirect(url_for('showRestaurants'))
     else:
-        return render_template('editRestaurant.html', restaurant_id=restaurant_id)
+        return render_template('editRestaurant.html', restaurant_id=restaurant_id, restaurant=restaurant)
 
 # Delete restaurant
 @app.route('/restaurant/<int:restaurant_id>/delete/', methods=['GET', 'POST'])

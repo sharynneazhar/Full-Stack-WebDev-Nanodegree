@@ -6,14 +6,10 @@
     <h4 class="title">Add a New Restaurant</h4>
   </div>
 
-  <form action="{{ url_for('newRestaurant') }}" method='POST'>
-    <dl>
-      <dt>Name:</dt>
-      <dd>
-        <input type='text' size='30' name='name' />
-      </dd>
-    </dl>
-    <input type='submit' value='Add Restaurant' />
+  <form class="edit-form" action="{{ url_for('newRestaurant') }}" method='POST'>
+    <label>Restaurant Name:</label>
+    <input type='text' class="form-control" name='name' />
+    <button type='submit' class="btn btn-info delete-btn">Submit</button>
   </form>
 
 {% endblock %}

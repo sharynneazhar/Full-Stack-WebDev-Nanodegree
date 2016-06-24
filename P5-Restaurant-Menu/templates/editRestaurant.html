@@ -1,1 +1,18 @@
 {% extends "base.html" %}
+
+{% block content %}
+
+  <div class="header">
+    <h4 class="title">Edit Restaurant</h4>
+  </div>
+
+  <form class="edit-form" action="{{url_for('editRestaurant', restaurant_id=restaurant.id)}}" method='POST'>
+    <label>Restaurant Name:</label>
+    <input type='text' class="form-control" name='name' placeholder="{{restaurant.name}}" />
+    <div class="button-area">
+      <button type='submit' class="btn btn-info delete-btn">Save</button>
+      <a href="{{url_for('showRestaurants')}}" class="btn btn-default">Cancel</a>
+    </div>
+  </form>
+
+{% endblock %}

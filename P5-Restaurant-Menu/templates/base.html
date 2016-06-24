@@ -29,7 +29,7 @@
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="/">
-            <img src="{{ url_for('static', filename='img/icn-crumbs.png') }}" alt="Brand">
+            <img class="navbar-img" src="{{ url_for('static', filename='img/icn-crumbs.png') }}" alt="Brand">
             <span class="navbar-title">Breadcrumbs</span>
           </a>
         </div>
@@ -45,7 +45,7 @@
     </div>
 
     <script type="text/javascript">
-      $(".alert").fadeTo(1500, 500).slideUp(500, function(){
+      $(".alert").fadeTo(3000, 500).slideUp(500, function(){
         $(".alert").alert('close');
       });
     </script>
