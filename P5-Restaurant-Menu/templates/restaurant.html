@@ -28,9 +28,12 @@
     {% for restaurant in restaurants %}
 
       <li class="list-group-item restaurant">
-        <h4>{{restaurant.name}}</h4>
+        <h4>
+          <a href="{{ url_for('showMenu', restaurant_id=restaurant.id) }}">
+            {{restaurant.name}}
+          </a>
+        </h4>
         <div class="button-area">
-          <a href="{{ url_for('showMenu', restaurant_id=restaurant.id) }}" class="btn btn-default add-btn">View</a>
           <a href="{{ url_for('editRestaurant', restaurant_id=restaurant.id) }}" class="btn btn-info">Edit</a>
           <a href="{{ url_for('deleteRestaurant', restaurant_id=restaurant.id) }}" class="btn btn-danger">Delete</a>
         </div>

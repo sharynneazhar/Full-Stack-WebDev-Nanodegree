@@ -1,1 +1,110 @@
 {% extends "base.html" %}
+
+{% block content %}
+
+  <div class="header">
+    <h2 class="title" style="margin-top:20px">{{restaurant.name}}</h2>
+    <a href="{{ url_for('newMenuItem', restaurant_id=restaurant.id) }}" class="btn btn-default add-btn">
+      <img src="{{ url_for('static', filename='img/icn-plus.png') }}" />
+      Add Menu Item
+    </a>
+  </div>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="alert alert-success alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      {% for message in messages %}
+        <strong>{{message}}</strong>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="appetizer">
+    <div class="course">Appetizer</div>
+    <hr>
+    <ul class="list-group">
+      {% for item in menu %}
+        {% if item.course == "Appetizer" %}
+          <li class="list-group-item menu">
+            <div class="menu-content">
+              <h4>{{item.name}} <span class="price">({{item.price}})</span> </h4>
+              <div>{{item.description}}</div>
+            </div>
+            <div class="button-area">
+              <a href="{{ url_for('editMenuItem', restaurant_id=restaurant.id, menu_id=item.id) }}" class="btn btn-info">Edit</a>
+              <a href="{{ url_for('deleteMenuItem', restaurant_id=restaurant.id, menu_id=item.id) }}" class="btn btn-danger">Delete</a>
+            </div>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="entree">
+    <div class="course">Entree</div>
+    <hr>
+    <ul class="list-group">
+      {% for item in menu %}
+        {% if item.course == "Entree" %}
+          <li class="list-group-item menu">
+            <div class="menu-content">
+              <h4>{{item.name}} <span class="price">({{item.price}})</span> </h4>
+              <div>{{item.description}}</div>
+            </div>
+            <div class="button-area">
+              <a href="{{ url_for('editMenuItem', restaurant_id=restaurant.id, menu_id=item.id) }}" class="btn btn-info">Edit</a>
+              <a href="{{ url_for('deleteMenuItem', restaurant_id=restaurant.id, menu_id=item.id) }}" class="btn btn-danger">Delete</a>
+            </div>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="dessert">
+    <div class="course">Dessert</div>
+    <hr>
+    <ul class="list-group">
+      {% for item in menu %}
+        {% if item.course == "Dessert" %}
+          <li class="list-group-item menu">
+            <div class="menu-content">
+              <h4>{{item.name}} <span class="price">({{item.price}})</span> </h4>
+              <div>{{item.description}}</div>
+            </div>
+            <div class="button-area">
+              <a href="{{ url_for('editMenuItem', restaurant_id=restaurant.id, menu_id=item.id) }}" class="btn btn-info">Edit</a>
+              <a href="{{ url_for('deleteMenuItem', restaurant_id=restaurant.id, menu_id=item.id) }}" class="btn btn-danger">Delete</a>
+            </div>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="beverages">
+    <div class="course">Beverages</div>
+    <hr>
+    <ul class="list-group">
+      {% for item in menu %}
+        {% if item.course == "Beverages" %}
+          <li class="list-group-item menu">
+            <div class="menu-content">
+              <h4>{{item.name}} <span class="price">({{item.price}})</span> </h4>
+              <div>{{item.description}}</div>
+            </div>
+            <div class="button-area">
+              <a href="{{ url_for('editMenuItem', restaurant_id=restaurant.id, menu_id=item.id) }}" class="btn btn-info">Edit</a>
+              <a href="{{ url_for('deleteMenuItem', restaurant_id=restaurant.id, menu_id=item.id) }}" class="btn btn-danger">Delete</a>
+            </div>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+
+{% endblock %}
