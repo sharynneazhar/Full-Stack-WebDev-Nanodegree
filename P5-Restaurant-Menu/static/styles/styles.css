@@ -1,3 +1,92 @@
+/*
+$black: #000000;
+$slate: #444444;
+$gray: #cfcfcf;
+$blue: #14054c;
+$white: #fffff0;
+$orange: #ffd376;
+*/
+
+html, body {
+  font-family: Open Sans;
+  color: #444444;
+}
+
+input {
+  border-radius: 0 !important;
+}
+
+.container-fluid {
+  width: 50%;
+  padding: 0;
+}
+
+.alert {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.navbar {
+  padding: 8px;
+}
+
+.navbar-brand {
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+}
+
 .navbar-brand img {
-  height: 130%;
+  height: 100%;
+}
+
+.navbar-title {
+  margin-left: 10px;
+  align-self: center;
+  font-size: 24px;
+  color: #444444;
+}
+
+.navbar-form {
+  padding-right: 0;
+}
+
+.btn {
+  margin-left: 8px;
+  border-radius: 0 !important;
+}
+
+.content {
+  width: 50%;
+  margin: 50px auto;
+}
+
+.title {
+  flex: 1;
+  font-size: 28px;
+  margin-bottom: 24px;
+}
+
+.list-group-item {
+  border-radius: 0 !important;
+}
+
+.restaurant {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.restaurant h4 {
+  flex: 1;
+}
+
+@media (max-width: 1024px) {
+  .container-fluid {
+    width: 90%;
+  }
+
+  .content {
+    width: 90%;
+  }
 }

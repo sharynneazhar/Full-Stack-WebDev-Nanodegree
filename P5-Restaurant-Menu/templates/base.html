@@ -4,7 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Growl | Admin</title>
+    <title>Breadcrumbs | Admin</title>
+
+    <!-- Font import -->
+    <link rel='stylesheet' type='text/css' href="https://fonts.googleapis.com/css?family=Open+Sans:400,300|Roboto+Condensed:400,300">
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -15,6 +18,8 @@
     <!-- Local css -->
     <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/styles.css')}}">
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   </head>
@@ -24,9 +29,13 @@
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="/">
-            <img src="{{url_for('static', filename='img/icn-growl.png')}}" alt="Brand">
+            <img src="{{ url_for('static', filename='img/icn-crumbs.png') }}" alt="Brand">
+            <span class="navbar-title">Breadcrumbs</span>
           </a>
         </div>
+        <form class="navbar-form navbar-right" role="search">
+          <input type="text" class="form-control" placeholder="Search">
+        </form>
       </div>
     </nav>
 
@@ -35,5 +44,10 @@
       {% endblock %}
     </div>
 
+    <script type="text/javascript">
+      $(".alert").fadeTo(1500, 500).slideUp(500, function(){
+        $(".alert").alert('close');
+      });
+    </script>
   </body>
 </html>
