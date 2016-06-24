@@ -3,7 +3,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from database_setup import Base, Restaurant, MenuItem
 
-app = Flask(__name__)
+app = create_app()
 
 engine = create_engine('sqlite:///restaurantmenu.db')
 Base.metadata.bind = engine
@@ -72,7 +72,6 @@ def deleteMenuItem(restaurant_id, menu_id):
         return render_template(
             'deletemenuitem.html', restaurant_id=restaurant_id, menu_id=menu_id, item=itemToDelete)
 
-if __name__ == '__main__':
-    app.secret_key = 'super_secret_key'
-    app.debug = True
-    app.run(host='0.0.0.0', port=5000)
+server = Server(app.wsgi_app)
+# server.watch
+server.serve()
