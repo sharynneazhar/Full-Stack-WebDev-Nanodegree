@@ -19,7 +19,11 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-# GLOBALS
+
+#########################################
+##          GLOBAL FUNCTIONS           ##
+#########################################
+
 def getRestaurants():
     return session.query(Restaurant)\
         .order_by(collate(Restaurant.name, 'NOCASE'))\
@@ -41,6 +45,34 @@ def getMenuItem(menu_id):
         .filter_by(id=menu_id)\
         .one()
 
+
+#########################################
+##           API ENDPOINTS             ##
+#########################################
+
+# Return all restaurant
+@app.route('/restaurants/JSON')
+def restaurantJSON():
+    restaurants = getRestaurants()
+    return jsonify(Restaurants=[i.serialize for i in restaurants])
+
+# Return menu for particular restaurant
+@app.route('/restaurant/<int:restaurant_id>/menu/JSON')
+def menuJSON(restaurant_id):
+    menu = getMenu(restaurant_id)
+    return jsonify(Menu=[i.serialize for i in menu])
+
+# Return menu item for particular menu
+@app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/JSON')
+def menuItemJSON(restaurant_id, menu_id):
+    menuItem = getMenuItem(menu_id)
+    return jsonify(MenuItem=menuItem.serialize)
+
+
+#########################################
+##       CLIENT-SIDE SERVICES          ##
+#########################################
+
 # Main pagee
 @app.route('/')
 @app.route('/restaurant/')
@@ -56,7 +88,7 @@ def newRestaurant():
         restaurant = Restaurant(name=name)
         session.add(restaurant)
         session.commit()
-        flash('Added %s!' % name)
+        flash('New Restaurant Created!')
         return redirect(url_for('showRestaurants'))
     else:
         return render_template('newRestaurant.html')
@@ -70,7 +102,7 @@ def editRestaurant(restaurant_id):
         restaurant.name = name
         session.add(restaurant)
         session.commit()
-        flash('Successfully renamed restaurant to %s' % name)
+        flash('Restaurant Successfully Edited!')
         return redirect(url_for('showRestaurants'))
     else:
         return render_template('editRestaurant.html', restaurant=restaurant)
@@ -82,12 +114,12 @@ def deleteRestaurant(restaurant_id):
     if request.method == 'POST':
         session.delete(restaurant)
         session.commit()
-        flash('Removed %s from list!' % restaurant.name)
+        flash('Restaurant Successfully Deleted!')
         return redirect(url_for('showRestaurants'))
     else:
         return render_template('deleteRestaurant.html', restaurant=restaurant)
 
-# Show a resturant menu
+# Show a restaurant menu
 @app.route('/restaurant/<int:restaurant_id>/')
 @app.route('/restaurant/<int:restaurant_id>/menu/')
 def showMenu(restaurant_id):
@@ -113,7 +145,7 @@ def newMenuItem(restaurant_id):
 
         session.add(menuItem)
         session.commit()
-        flash('Added %s!' % name)
+        flash('Menu Item Created!')
         return redirect(url_for('showMenu', restaurant_id=restaurant.id))
     else:
         return render_template('newMenuItem.html', restaurant=restaurant)
@@ -130,7 +162,7 @@ def editMenuItem(restaurant_id, menu_id):
 
         session.add(menuItem)
         session.commit()
-        flash('Successfully edited menu item %s' % menuItem.name)
+        flash('Menu Item Successfully Edited')
         return redirect(url_for('showMenu', restaurant_id=restaurant_id))
     else:
         return render_template(
@@ -147,7 +179,7 @@ def deleteMenuItem(restaurant_id, menu_id):
     if request.method == 'POST':
         session.delete(menuItem)
         session.commit()
-        flash('Removed %s from list!' % menuItem.name)
+        flash('Menu Item Successfully Deleted')
         return redirect(url_for('showMenu', restaurant_id=restaurant_id))
     else:
         return render_template(
