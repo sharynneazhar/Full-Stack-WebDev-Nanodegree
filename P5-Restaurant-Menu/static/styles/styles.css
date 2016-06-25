@@ -20,6 +20,10 @@ hr {
   margin-bottom: 15px;
 }
 
+ul li:hover {
+  background-color: rgba(255,211,118,0.4);
+}
+
 .wrap {
   flex-wrap: wrap;
 }
