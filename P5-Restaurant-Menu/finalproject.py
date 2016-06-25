@@ -123,12 +123,20 @@ def editMenuItem(restaurant_id, menu_id):
         .one()
 
     if request.method == 'POST':
-        pass
+        menuItem.name = request.form['name']
+        menuItem.price = request.form['price']
+        menuItem.description = request.form['description']
+        menuItem.course = request.form['course']
+        session.add(menuItem)
+        session.commit()
+        flash('Successfully edited menu item %s' % menuItem.name)
+        return redirect(url_for('showMenu', restaurant_id=restaurant_id))
     else:
         return render_template(
             'editMenuItem.html',
             restaurant_id=restaurant_id,
             menu_id=menu_id,
+            menu=menuItem
         )
 
 # Delete menu item

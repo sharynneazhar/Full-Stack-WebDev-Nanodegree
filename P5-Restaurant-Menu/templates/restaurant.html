@@ -5,7 +5,7 @@
   <div class="header">
     <h4 class="title">Best Restaurants in Kansas City</h4>
     <a href="/restaurant/new" class="btn btn-default add-btn">
-      <img src="{{ url_for('static', filename='img/icn-plus.png') }}" />
+      <img src="{{url_for('static', filename='img/icn-plus.png')}}" />
       Add Restaurant
     </a>
   </div>
@@ -34,8 +34,8 @@
           </a>
         </h4>
         <div class="button-area">
-          <a href="{{ url_for('editRestaurant', restaurant_id=restaurant.id) }}" class="btn btn-info">Edit</a>
-          <a href="{{ url_for('deleteRestaurant', restaurant_id=restaurant.id) }}" class="btn btn-danger">Delete</a>
+          <a href="{{url_for('editRestaurant', restaurant_id=restaurant.id)}}" class="btn btn-info">Edit</a>
+          <a href="{{url_for('deleteRestaurant', restaurant_id=restaurant.id)}}" class="btn btn-danger">Delete</a>
         </div>
       </li>
 

@@ -6,7 +6,7 @@
     <h4 class="title">Add a New Menu Item</h4>
   </div>
 
-  <form class="edit-form" action="{{ url_for('newMenuItem', restaurant_id=restaurant_id) }}" method='POST'>
+  <form class="edit-form" action="{{url_for('newMenuItem', restaurant_id=restaurant_id)}}" method='POST'>
     <label>Name:</label>
     <input type='text' class="form-control" name='name' />
 
@@ -14,7 +14,7 @@
     <input type='text' class="form-control" name='price' />
 
     <label>Description:</label>
-    <input type='text' class="form-control" name='description' />
+    <textarea class="form-control" name="description" rows="3" cols="40"></textarea>
 
     <label>Course:</label>
     <div class="radio-group">
@@ -34,7 +34,11 @@
       <label>Beverages</label>
     </div>
 
-    <button type='submit' class="btn btn-info delete-btn">Submit</button>
+    <div class="button-area">
+      <button type='submit' class="btn btn-info delete-btn">Submit</button>
+      <a href="{{url_for('showMenu', restaurant_id=restaurant_id, menu_id=menu_id)}}" class="btn btn-default">Cancel</a>
+    </div>
+
   </form>
 
 {% endblock %}
