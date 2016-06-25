@@ -10,9 +10,9 @@
     Are you sure you want to delete
     <em>{{restaurant.name}}</em>?
   </h4>
-  
+
   <form action="{{url_for('deleteRestaurant', restaurant_id=restaurant.id)}}" method='POST'>
-    <button type='submit' class="btn btn-danger delete-btn">Delete</button>
+    <input type='submit' class="btn btn-danger delete-btn" value="Delete" />
     <a href="{{url_for('showRestaurants')}}" class="btn btn-default">Cancel</a>
   </form>
 

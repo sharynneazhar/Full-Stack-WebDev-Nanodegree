@@ -8,11 +8,11 @@
 
   <h4 style="margin-bottom: 30px;">
     Are you sure you want to delete
-    <em>{{item.name}}</em>?
+    <em>{{menuItem.name}}</em>?
   </h4>
 
   <form action="{{url_for('deleteMenuItem', restaurant_id=restaurant_id, menu_id=menu_id)}}" method='POST'>
-    <button type='submit' class="btn btn-danger delete-btn">Delete</button>
+    <input type='submit' class="btn btn-danger delete-btn" value="Delete" />
     <a href="{{url_for('showMenu', restaurant_id=restaurant_id)}}" class="btn btn-default">Cancel</a>
   </form>
 
