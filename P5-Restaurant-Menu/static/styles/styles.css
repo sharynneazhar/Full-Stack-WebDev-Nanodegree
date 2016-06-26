@@ -8,6 +8,10 @@ input[type='text'] {
   font-style: italic;
 }
 
+a {
+  text-decoration: none;
+}
+
 a > img:not(.navbar-img) {
   height: 16px;
   width: 16px;
@@ -34,7 +38,7 @@ ul li:hover {
 }
 
 .alert {
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
 
@@ -84,12 +88,16 @@ ul li:hover {
 
 .header {
   display: flex;
+  margin-bottom: 30px;
+}
+
+.header-buttons {
+  margin-left: -8px;
 }
 
 .title {
   flex: 1;
   font-size: 28px;
-  margin-bottom: 24px;
 }
 
 .list-group-item {
@@ -100,6 +108,12 @@ ul li:hover {
   display: flex;
   align-items: center;
   width: 100%;
+}
+
+.restaurant-title {
+  flex: 1;
+  font-size: 38px;
+  margin-bottom: 24px;
 }
 
 .restaurant h4 {
@@ -118,7 +132,7 @@ ul li:hover {
 
 .course {
   margin-top: 30px;
-  font-size: 22px;
+  font-size: 20px;
 }
 
 .menu {
@@ -131,14 +145,19 @@ ul li:hover {
   display: block;
   align-items: center;
   flex: 1;
-  margin-right: 45px;
 }
 
 .price {
-  margin-left: 10px;
+  margin-top: 1px;
   font-style: italic;
   font-size: 14px;
-  color: #aaaaaa;
+  font-weight: bold;
+}
+
+.description {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #7e7e7e;
 }
 
 .radio-group:not(:first-of-type) {
