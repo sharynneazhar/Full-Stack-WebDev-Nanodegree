@@ -1,3 +1,10 @@
+import os
+import random
+import string
+import httplib2
+import json
+import requests
+
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -16,12 +23,6 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 
 from db_setup import Base, User, Restaurant, MenuItem
-
-import random
-import string
-import httplib2
-import json
-import requests
 
 app = Flask(__name__)
 CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']
