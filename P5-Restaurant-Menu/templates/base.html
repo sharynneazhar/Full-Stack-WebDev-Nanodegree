@@ -39,10 +39,30 @@
           </a>
         </div>
         <div class="navbar-form navbar-right">
-          {%if 'username' not in session %}
-    			   <a href="{{url_for('showLogin')}}">Click Here to Login</a>
+          {% if 'username' not in session %}
+            <div style="margin-top:10px">
+              <a href="{{url_for('showLogin')}}">Click Here to Login</a>
+            </div>
     			{% else %}
-    			   <a href="{{url_for('disconnect')}}">Logout</a>
+            <div class="dropdown">
+              <a
+                class="dropdown-toggle pull-right"
+                type="button"
+                id="profile"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="true">
+                <img class="profile-img" src="{{session.picture}}" alt="Profile Picture" />
+              </a>
+              <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="profile">
+                <li><a href="#">Your Favorites</a></li>
+                <li><a href="#">Your Reviews</a></li>
+                <li><a href="#">Your Pinned</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Profile Settings</a></li>
+                <li><a href="{{url_for('disconnect')}}">Logout</a></li>
+              </ul>
+            </div>
     			{% endif %}
         </div>
       </div>

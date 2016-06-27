@@ -5,7 +5,7 @@
   <div class="header">
     <h4 class="title">Best Restaurants in Kansas City</h4>
     <a href="/restaurant/new" class="btn btn-default add-btn">
-      <img src="{{url_for('static', filename='img/icons/icn-plus.png')}}" />
+      <img class="icon-img" src="{{url_for('static', filename='img/icons/icn-plus.png')}}" />
       Add Restaurant
     </a>
   </div>
@@ -29,10 +29,13 @@
 
       <li class="list-group-item restaurant">
         <h4>
-          <a href="{{ url_for('showMenu', restaurant_id=restaurant.id) }}">
+          <a href="{{url_for('showMenu', restaurant_id=restaurant.id)}}">
             {{restaurant.name}}
           </a>
         </h4>
+        <div class="ratings">
+          <img src="{{url_for('static', filename='img/illustrations/ratings.png')}}" height="20px;" />
+        </div>
       </li>
 
     {% endfor %}

@@ -5,15 +5,15 @@
   <h2 class="restaurant-title" style="margin-top:20px">{{restaurant.name}}</h2>
   <div class="header-buttons">
     <a href="{{url_for('editRestaurant', restaurant_id=restaurant.id)}}" class="btn btn-default add-btn">
-      <img src="{{url_for('static', filename='img/icons/icn-edit.png')}}" />
+      <img class="icon-img" src="{{url_for('static', filename='img/icons/icn-edit.png')}}" />
       Edit Restaurant
     </a>
     <a href="{{url_for('newMenuItem', restaurant_id=restaurant.id)}}" class="btn btn-default add-btn">
-      <img src="{{url_for('static', filename='img/icons/icn-silverware.png')}}" />
+      <img class="icon-img" src="{{url_for('static', filename='img/icons/icn-silverware.png')}}" />
       Add Menu Item
     </a>
     <a href="{{url_for('deleteRestaurant', restaurant_id=restaurant.id)}}" class="btn btn-default add-btn">
-      <img src="{{url_for('static', filename='img/icons/icn-delete.png')}}" />
+      <img class="icon-img" src="{{url_for('static', filename='img/icons/icn-delete.png')}}" />
       Delete Restaurant
     </a>
   </div>
