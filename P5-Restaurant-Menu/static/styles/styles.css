@@ -81,6 +81,7 @@ ul li:hover {
 }
 
 .navbar-form {
+  padding-top: 8px;
   padding-right: 0;
 }
 
@@ -198,11 +199,22 @@ ul li:hover {
   text-align: center;
 }
 
+.login-button-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-button {
+  margin: 10px;
+}
+
 .logo {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 40px;
+  margin: 30px 40px;
 }
 
 .logo-img {
@@ -216,6 +228,12 @@ ul li:hover {
   font-weight: bold;
   font-family: Coming Soon, sans-serif;
   margin-top: 5px;
+}
+
+.result {
+  margin-top: 10px;
+  font-size: 18px;
+  font-style: italic;
 }
 
 @media (max-width: 1024px) {

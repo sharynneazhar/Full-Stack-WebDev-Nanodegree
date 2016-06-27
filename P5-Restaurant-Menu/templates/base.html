@@ -38,9 +38,13 @@
             <span class="navbar-title">Breadcrumbs</span>
           </a>
         </div>
-        <form class="navbar-form navbar-right" role="search">
-          <input type="text" class="form-control" placeholder="Search Restaurant">
-        </form>
+        <div class="navbar-form navbar-right">
+          {%if 'username' not in session %}
+    			   <a href="{{url_for('showLogin')}}">Click Here to Login</a>
+    			{% else %}
+    			   <a href="{{url_for('disconnect')}}">Logout</a>
+    			{% endif %}
+        </div>
       </div>
     </nav>
 
