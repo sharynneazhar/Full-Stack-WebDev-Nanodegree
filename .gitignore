@@ -10,3 +10,6 @@ __pycache__/
 */.vagrant
 modules/vagrant/.vagrant
 .vagrant
+
+P5-Restaurant-Menu/client_secrets.json
+P5-Restaurant-Menu/fb_client_secrets.json
