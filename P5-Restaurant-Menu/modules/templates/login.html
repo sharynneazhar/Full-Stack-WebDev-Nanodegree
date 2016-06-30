@@ -7,8 +7,8 @@
   <title>Breadcrumbs | Login</title>
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="{{url_for('static', filename='img/favicon.ico')}}" type="image/x-icon">
-  <link rel="icon" href="{{url_for('static', filename='img/favicon.ico')}}" type="image/x-icon">
+  <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
 
   <!-- Font import -->
   <link rel='stylesheet' type='text/css' href="https://fonts.googleapis.com/css?family=Open+Sans:400,300|Roboto+Condensed:400,300">
@@ -21,7 +21,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
   <!-- Local css -->
-  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/styles.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/styles.css')}}">
 
   <!-- jQuery  -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
@@ -54,7 +54,7 @@
   <div class="login-page">
     <div class="login-area">
       <div class="logo">
-        <img class="logo-img" src="{{url_for('static', filename='img/logos/icn-crumbs.png')}}" alt="Logo" />
+        <img class="logo-img" src="/static/img/logos/icn-crumbs.png" alt="Logo" />
         <div class="logo-title">Breadcrumbs</div>
       </div>
 
@@ -63,7 +63,7 @@
           <span
             class="g-signin"
             data-scope="openid email"
-            data-clientid="1016871745581-qda6h5g0sppmant8um6djaqs4kphsqnn.apps.googleusercontent.com"
+            data-clientid="1016871745581-rg19pml9amca2ecjouhhcor1ch6ti1lh.apps.googleusercontent.com"
             data-redirecturi="postmessage"
             data-accesstype="offline"
             data-cookiepolicy="single_host_origin"
@@ -72,11 +72,11 @@
           </span>
         </div>
 
-        <div id="fb-signin" class="login-button">
+        <!-- <div id="fb-signin" class="login-button">
           <fb:login-button size="large" scope="public_profile,email" onlogin="sendTokenToServer();">
             <a href='javascript:sendTokenToServer()'>Continue with Facebook</a>
           </fb:login-button>
-        </div>
+        </div> -->
       </div>
 
       <div class="result"></div>

@@ -43,6 +43,7 @@ ul li:hover {
 .add-btn {
   align-self: center;
   background-image: none;
+  margin-top: 5px;
 }
 
 .delete-btn {
@@ -74,7 +75,13 @@ ul li:hover {
 }
 
 .navbar-form {
+  display: flex;
   padding-right: 10px;
+}
+
+.search-form {
+  margin-top: 2px;
+  margin-right: 25px;
 }
 
 .icon-img {
@@ -86,7 +93,7 @@ ul li:hover {
 
 .profile-img {
   margin-right: 10px;
-  height: 38px;
+  height: 40px;
   border-radius: 100%;
 }
 
@@ -129,6 +136,10 @@ ul li:hover {
   flex: 1;
   font-size: 38px;
   margin-bottom: 24px;
+}
+
+.restaurant-category {
+  margin-bottom: 20px;
 }
 
 .restaurant h4 {

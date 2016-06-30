@@ -3,6 +3,12 @@
 {% block content %}
 
   <h2 class="restaurant-title" style="margin-top:20px">{{restaurant.name}}</h2>
+
+  <p class="restaurant-category">Category: {{restaurant.category}} | Created by
+    <img class="creator-img" src="{{creator.picture}}" alt="Profile Picture" />
+    <span class="creator">me.</span>
+  </p>
+
   <div class="header-buttons">
     <a href="{{url_for('editRestaurant', restaurant_id=restaurant.id)}}" class="btn btn-default add-btn">
       <img class="icon-img" src="{{url_for('static', filename='img/icons/icn-edit.png')}}" />

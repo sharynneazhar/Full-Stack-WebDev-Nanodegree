@@ -7,8 +7,8 @@
     <title>Breadcrumbs | Admin</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{url_for('static', filename='img/favicon.ico')}}" type="image/x-icon">
-    <link rel="icon" href="{{url_for('static', filename='img/favicon.ico')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/static/img/favicon.ico" type="image/x-icon">
 
     <!-- Font import -->
     <link rel='stylesheet' type='text/css' href="https://fonts.googleapis.com/css?family=Open+Sans:400,300|Roboto+Condensed:400,300">
@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
     <!-- Local css -->
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/styles.css')}}">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 
@@ -34,7 +34,7 @@
       <div class="container-fluid">
         <div class="navbar-header">
           <a class="navbar-brand" href="/">
-            <img class="navbar-img" src="{{url_for('static', filename='img/logos/icn-crumbs.png')}}" alt="Brand" />
+            <img class="navbar-img" src="/static/img/logos/icn-crumbs.png" alt="Brand" />
             <span class="navbar-title">Breadcrumbs</span>
           </a>
         </div>
@@ -44,6 +44,9 @@
               <a href="{{url_for('showLogin')}}">Click Here to Login</a>
             </div>
     			{% else %}
+            <form class="search-form" action="{{url_for('searchCategory')}}" method='POST'>
+              <input type='text' class="form-control" name='search' placeholder='Search Category' />
+            </form>
             <div class="dropdown">
               <a
                 class="dropdown-toggle pull-right"
