@@ -51,6 +51,8 @@ ul li:hover {
 }
 
 .navbar {
+  background-image: url('../img/illustrations/bg-restaurant.png');
+  background-repeat: repeat;
   padding: 8px;
 }
 
@@ -214,7 +216,7 @@ ul li:hover {
 .login-area {
   height: 300px;
   width: 500px;
-  padding: 20px;
+  padding: 30px 20px;
   background-color: #ffffff;
   border: 2px solid #ffd376;
   border-radius: 8px;
@@ -230,6 +232,16 @@ ul li:hover {
 
 .login-button {
   margin: 10px;
+}
+
+.login-link {
+  margin-top: 9px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.login-link a {
+  color: #333333;
 }
 
 .logo {
@@ -253,7 +265,7 @@ ul li:hover {
 }
 
 .result {
-  margin-top: 10px;
+  margin-top: 30px;
   font-size: 18px;
   font-style: italic;
 }

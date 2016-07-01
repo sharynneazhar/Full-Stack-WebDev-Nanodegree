@@ -29,17 +29,29 @@ from models import Base, User, Restaurant, MenuItem
 ##############################################
 # JSON RESPONSE API
 ##############################################
-@app.route('/restaurants/JSON')
+@app.route('/api/restaurants/')
 def restaurantJSON():
+    """
+    Returns the JSON data for the list of restaurants
+    """
     restaurants = app.getRestaurants()
     return jsonify(Restaurants=[i.serialize for i in restaurants])
 
-@app.route('/restaurant/<int:restaurant_id>/menu/JSON')
+
+@app.route('/api/restaurants/<int:restaurant_id>/menu/')
 def menuJSON(restaurant_id):
+    """
+    Returns the JSON data for the list of
+    menu items at a  particular restaurant
+    """
     menu = app.getMenu(restaurant_id)
     return jsonify(Menu=[i.serialize for i in menu])
 
-@app.route('/restaurant/<int:restaurant_id>/menu/<int:menu_id>/JSON')
+
+@app.route('/api/restaurants/<int:restaurant_id>/menu/<int:menu_id>/')
 def menuItemJSON(restaurant_id, menu_id):
+    """
+    Returns the JSON data for the menu item details
+    """
     menuItem = app.getMenuItem(menu_id)
     return jsonify(MenuItem=menuItem.serialize)

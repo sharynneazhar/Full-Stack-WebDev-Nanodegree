@@ -18,6 +18,7 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+
 ###############################################
 # HELPER FUNCTIONS
 ##############################################
@@ -32,11 +33,13 @@ def createUser(login_session):
         .one()
 app.createUser = createUser
 
+
 def getUserInfo(user_id):
     return session.query(User)\
         .filter_by(id=user_id)\
         .one()
 app.getUserInfo = getUserInfo
+
 
 def getUserID(email):
     try:
@@ -48,11 +51,13 @@ def getUserID(email):
         return None
 app.getUserID = getUserID
 
+
 def getRestaurants():
     return session.query(Restaurant)\
         .order_by(collate(Restaurant.name, 'NOCASE'))\
         .all()
 app.getRestaurants = getRestaurants
+
 
 def getRestaurantsById(restaurant_id):
     return session.query(Restaurant)\
@@ -60,11 +65,13 @@ def getRestaurantsById(restaurant_id):
         .one()
 app.getRestaurantsById = getRestaurantsById
 
+
 def getRestaurantsByCategory(category):
     return session.query(Restaurant)\
         .filter(func.lower(Restaurant.category) == func.lower(category))\
         .all()
 app.getRestaurantsByCategory = getRestaurantsByCategory
+
 
 def getMenu(restaurant_id):
     return session.query(MenuItem)\
@@ -72,6 +79,7 @@ def getMenu(restaurant_id):
         .order_by(collate(MenuItem.name, 'NOCASE'))\
         .all()
 app.getMenu = getMenu
+
 
 def getMenuItem(menu_id):
     return session.query(MenuItem)\
