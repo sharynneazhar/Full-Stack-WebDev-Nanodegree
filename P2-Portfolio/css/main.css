@@ -21,9 +21,10 @@ img {
 }
 
 .title-logo {
-  max-width: 120px;
-  max-height: 120px;
-  margin-top: 13px;
+  max-width: 84px;
+  max-height: 84px;
+  margin-top: 15px;
+  padding: 10px;
 }
 
 .title-super {
@@ -41,11 +42,19 @@ img {
   text-align: right;
 }
 
+.social a:hover {
+  text-decoration: none;
+}
+
 .social > a > img {
   height: 28px;
   width: 28px;
-  margin: 10px 0 10px 20px;
+  margin: 15px 0 10px 35px;
   opacity: .2;
+}
+
+.social > a > img:hover {
+  opacity: .7;
 }
 
 .content-area {
@@ -59,7 +68,16 @@ img {
 }
 
 .featured .row {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+}
+
+.featured section {
+  margin: 5x;
+  padding: 10px;
+}
+
+.featured section:hover {
+  background-color: rgba(51, 170, 238, 0.5);
 }
 
 .featured-title {
@@ -76,4 +94,14 @@ img {
   text-decoration: none;
   font-size: 14px;
   color: #2d3c49;
+  cursor: pointer;
+}
+
+.project-link:hover {
+  text-decoration: none;
+}
+
+.project-link img {
+  height: 200px;
+  width: 300px;
 }
