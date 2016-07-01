@@ -10,6 +10,9 @@ You will develop an application that provides a list of items within a variety o
 * Install [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 * Clone the repo using `git clone https://github.com/sharynneazhar/fs-nanodegree.git`
 
+###### Secret Keys
+You need to obtain your own secret keys from [Google API](https://console.developers.google.com/) and [Facebook Developer](https://developers.facebook.com/). A guide to obtaining a Google client ID can be viewed [here](https://www.youtube.com/watch?v=8aGoty0VXgw). Once you register the app, you will be able to download the client secret JSON files required for the project. You may save the files under `/fs-nanodegree/P5-Restaurant-Menu/`. (Note: Udacity reviewers will be provided the necessary client IDs and secret keys under project submission notes)
+
 ###### Run the Project
 * Run the virtual environment
   * `cd /path/to/fs-nanodegree` into the repo 
