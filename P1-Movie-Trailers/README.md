@@ -1,4 +1,4 @@
-# [Fresh Tomatoes](http://sharynneazhar.github.io/udacity_movie-trailers/)
+# Fresh Tomatoes
 A project from Udacity's Full Stack Web Developer Nanodegree Program
 
 #### Project Description
