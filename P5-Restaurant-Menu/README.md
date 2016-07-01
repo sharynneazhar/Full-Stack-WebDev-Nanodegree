@@ -21,3 +21,8 @@ You will develop an application that provides a list of items within a variety o
   * `python app.py` to run the project
 * Run The Project
   * Navigate to `localhost:5000` to see it working! 
+
+#### API Overview
+* `/api/restaurants/` to obtain a list of all restaurants
+* `/api/restaurants/<int:restaurant_id>/menu/` to obtain the menu list of a particular restaurant
+* `/api/restaurants/<int:restaurant_id>/menu/<int:menu_id>` to obtain details about a particular menu item
