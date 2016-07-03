@@ -33,10 +33,12 @@
             {{restaurant.name}}
           </a>
         </h4>
+        {% if user_id == restaurant.user_id %}
         <div class="button-area">
           <a href="{{url_for('editRestaurant', restaurant_id=restaurant.id)}}">Edit</a> |
           <a href="{{url_for('deleteRestaurant', restaurant_id=restaurant.id)}}">Delete</a>
         </div>
+        {% endif %}
       </li>
 
     {% endfor %}
