@@ -1,14 +1,8 @@
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from models import Restaurant, Base, MenuItem, User
-
-engine = create_engine('sqlite:///app.db')
-Base.metadata.bind = engine
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
+from modules import app
 
 
 ##############################################
@@ -17,20 +11,20 @@ session = DBSession()
 user1 = User(name="Robert Rista",
              email="robertrista@udacity.com",
              picture='https://cdn-selfish-prod.turbobytes.net/staged/host-prod/0912d4d717886001-0912d4d717886002.jpg')
-session.add(user1)
-session.commit()
+app.session.add(user1)
+app.session.commit()
 
 user2 = User(name="Kelly Donahue",
              email="kdonahue@gmail.com",
              picture='http://www.hairstylestars.com/wp-content/uploads/2013/05/Hipster-Bangs.jpg')
-session.add(user2)
-session.commit()
+app.session.add(user2)
+app.session.commit()
 
 user3 = User(name="Naomi Li",
              email="naomi.li@gmail.com",
              picture='http://www.huffingtonpost.com/contributors/sahra-vang-nguyen/headshot.jpg')
-session.add(user3)
-session.commit()
+app.session.add(user3)
+app.session.commit()
 
 
 ##############################################
@@ -39,8 +33,8 @@ session.commit()
 
 # Menu for Urban Burger
 restaurant1 = Restaurant(user_id=1, name="Urban Burger", category="American")
-session.add(restaurant1)
-session.commit()
+app.session.add(restaurant1)
+app.session.commit()
 
 menuItem1 = MenuItem(user_id=1,
                      name="French Fries",
@@ -48,8 +42,8 @@ menuItem1 = MenuItem(user_id=1,
                      price="2.99",
                      course="Appetizer",
                      restaurant=restaurant1)
-session.add(menuItem1)
-session.commit()
+app.session.add(menuItem1)
+app.session.commit()
 
 menuItem2 = MenuItem(user_id=1,
                      name="Veggie Burger",
@@ -57,8 +51,8 @@ menuItem2 = MenuItem(user_id=1,
                      price="7.50",
                      course="Entree",
                      restaurant=restaurant1)
-session.add(menuItem2)
-session.commit()
+app.session.add(menuItem2)
+app.session.commit()
 
 menuItem3 = MenuItem(user_id=2,
                      name="Chocolate Cake",
@@ -66,8 +60,8 @@ menuItem3 = MenuItem(user_id=2,
                      price="3.99",
                      course="Dessert",
                      restaurant=restaurant1)
-session.add(menuItem3)
-session.commit()
+app.session.add(menuItem3)
+app.session.commit()
 
 menuItem4 = MenuItem(user_id=1,
                      name="Sirloin Burger",
@@ -75,8 +69,8 @@ menuItem4 = MenuItem(user_id=1,
                      price="7.99",
                      course="Entree",
                      restaurant=restaurant1)
-session.add(menuItem4)
-session.commit()
+app.session.add(menuItem4)
+app.session.commit()
 
 menuItem5 = MenuItem(user_id=1,
                      name="Root Beer",
@@ -84,8 +78,8 @@ menuItem5 = MenuItem(user_id=1,
                      price="1.99",
                      course="Beverage",
                      restaurant=restaurant1)
-session.add(menuItem5)
-session.commit()
+app.session.add(menuItem5)
+app.session.commit()
 
 menuItem6 = MenuItem(user_id=2,
                      name="Iced Tea",
@@ -93,8 +87,8 @@ menuItem6 = MenuItem(user_id=2,
                      price=".99",
                      course="Beverage",
                      restaurant=restaurant1)
-session.add(menuItem6)
-session.commit()
+app.session.add(menuItem6)
+app.session.commit()
 
 menuItem7 = MenuItem(user_id=1,
                      name="Grilled Cheese Sandwich",
@@ -102,8 +96,8 @@ menuItem7 = MenuItem(user_id=1,
                      price="3.49",
                      course="Entree",
                      restaurant=restaurant1)
-session.add(menuItem7)
-session.commit()
+app.session.add(menuItem7)
+app.session.commit()
 
 menuItem8 = MenuItem(user_id=1,
                      name="Veggie Burger",
@@ -111,14 +105,14 @@ menuItem8 = MenuItem(user_id=1,
                      price="5.99",
                      course="Entree",
                      restaurant=restaurant1)
-session.add(menuItem8)
-session.commit()
+app.session.add(menuItem8)
+app.session.commit()
 
 
 # Menu for Super Stir Fry
 restaurant2 = Restaurant(user_id=2, name="Super Stir Fry", category="Asian")
-session.add(restaurant2)
-session.commit()
+app.session.add(restaurant2)
+app.session.commit()
 
 menuItem1 = MenuItem(user_id=2,
                      name="Chicken Stir Fry",
@@ -126,8 +120,8 @@ menuItem1 = MenuItem(user_id=2,
                      price="7.99",
                      course="Entree",
                      restaurant=restaurant2)
-session.add(menuItem1)
-session.commit()
+app.session.add(menuItem1)
+app.session.commit()
 
 menuItem2 = MenuItem(user_id=2,
                      name="Peking Duck",
@@ -135,8 +129,8 @@ menuItem2 = MenuItem(user_id=2,
                      price="25",
                      course="Entree",
                      restaurant=restaurant2)
-session.add(menuItem2)
-session.commit()
+app.session.add(menuItem2)
+app.session.commit()
 
 menuItem3 = MenuItem(user_id=2,
                      name="Spicy Tuna Roll",
@@ -144,8 +138,8 @@ menuItem3 = MenuItem(user_id=2,
                      price="15",
                      course="Entree",
                      restaurant=restaurant2)
-session.add(menuItem3)
-session.commit()
+app.session.add(menuItem3)
+app.session.commit()
 
 menuItem4 = MenuItem(user_id=3,
                      name="Nepali Momo",
@@ -153,8 +147,8 @@ menuItem4 = MenuItem(user_id=3,
                      price="12",
                      course="Entree",
                      restaurant=restaurant2)
-session.add(menuItem4)
-session.commit()
+app.session.add(menuItem4)
+app.session.commit()
 
 menuItem5 = MenuItem(user_id=3,
                      name="Beef Noodle Soup",
@@ -162,8 +156,8 @@ menuItem5 = MenuItem(user_id=3,
                      price="14",
                      course="Entree",
                      restaurant=restaurant2)
-session.add(menuItem5)
-session.commit()
+app.session.add(menuItem5)
+app.session.commit()
 
 menuItem6 = MenuItem(user_id=1,
                      name="Ramen",
@@ -171,14 +165,14 @@ menuItem6 = MenuItem(user_id=1,
                      price="12",
                      course="Entree",
                      restaurant=restaurant2)
-session.add(menuItem6)
-session.commit()
+app.session.add(menuItem6)
+app.session.commit()
 
 
 # Menu for Panda Garden
 restaurant3 = Restaurant(user_id=3, name="Panda Garden", category="Asian")
-session.add(restaurant3)
-session.commit()
+app.session.add(restaurant3)
+app.session.commit()
 
 menuItem1 = MenuItem(user_id=3,
                      name="Pho",
@@ -186,8 +180,8 @@ menuItem1 = MenuItem(user_id=3,
                      price="8.99",
                      course="Entree",
                      restaurant=restaurant3)
-session.add(menuItem1)
-session.commit()
+app.session.add(menuItem1)
+app.session.commit()
 
 menuItem2 = MenuItem(user_id=3,
                      name="Chinese Dumplings",
@@ -195,8 +189,8 @@ menuItem2 = MenuItem(user_id=3,
                      price="6.99",
                      course="Appetizer",
                      restaurant=restaurant3)
-session.add(menuItem2)
-session.commit()
+app.session.add(menuItem2)
+app.session.commit()
 
 menuItem3 = MenuItem(user_id=1,
                      name="Gyoza",
@@ -204,8 +198,8 @@ menuItem3 = MenuItem(user_id=1,
                      price="9.95",
                      course="Entree",
                      restaurant=restaurant3)
-session.add(menuItem3)
-session.commit()
+app.session.add(menuItem3)
+app.session.commit()
 
 menuItem4 = MenuItem(user_id=3,
                      name="Stinky Tofu",
@@ -213,8 +207,8 @@ menuItem4 = MenuItem(user_id=3,
                      price="6.99",
                      course="Entree",
                      restaurant=restaurant3)
-session.add(menuItem4)
-session.commit()
+app.session.add(menuItem4)
+app.session.commit()
 
 menuItem5 = MenuItem(user_id=2,
                      name="Veggie Burger",
@@ -222,14 +216,14 @@ menuItem5 = MenuItem(user_id=2,
                      price="$9.50",
                      course="Entree",
                      restaurant=restaurant3)
-session.add(menuItem5)
-session.commit()
+app.session.add(menuItem5)
+app.session.commit()
 
 
 # Menu for Thyme For That
 restaurant4 = Restaurant(user_id=2, name="Thyme for That Vegetarian Cuisine", category="Vegetarian")
-session.add(restaurant4)
-session.commit()
+app.session.add(restaurant4)
+app.session.commit()
 
 menuItem1 = MenuItem(user_id=2,
                      name="Tres Leches Cake",
@@ -237,8 +231,8 @@ menuItem1 = MenuItem(user_id=2,
                      price="$2.99",
                      course="Dessert",
                      restaurant=restaurant4)
-session.add(menuItem1)
-session.commit()
+app.session.add(menuItem1)
+app.session.commit()
 
 menuItem2 = MenuItem(user_id=2,
                      name="Mushroom risotto",
@@ -246,8 +240,8 @@ menuItem2 = MenuItem(user_id=2,
                      price="$5.99",
                      course="Entree",
                      restaurant=restaurant4)
-session.add(menuItem2)
-session.commit()
+app.session.add(menuItem2)
+app.session.commit()
 
 menuItem3 = MenuItem(user_id=2,
                      name="Honey Boba Shaved Snow",
@@ -255,8 +249,8 @@ menuItem3 = MenuItem(user_id=2,
                      price="$4.50",
                      course="Dessert",
                      restaurant=restaurant4)
-session.add(menuItem3)
-session.commit()
+app.session.add(menuItem3)
+app.session.commit()
 
 menuItem4 = MenuItem(user_id=2,
                      name="Cauliflower Manchurian",
@@ -264,8 +258,8 @@ menuItem4 = MenuItem(user_id=2,
                      price="$6.95",
                      course="Appetizer",
                      restaurant=restaurant4)
-session.add(menuItem4)
-session.commit()
+app.session.add(menuItem4)
+app.session.commit()
 
 menuItem5 = MenuItem(user_id=2,
                      name="Aloo Gobi Burrito",
@@ -273,8 +267,8 @@ menuItem5 = MenuItem(user_id=2,
                      price="$7.95",
                      course="Entree",
                      restaurant=restaurant4)
-session.add(menuItem5)
-session.commit()
+app.session.add(menuItem5)
+app.session.commit()
 
 menuItem6 = MenuItem(user_id=2,
                      name="Veggie Burger",
@@ -282,14 +276,14 @@ menuItem6 = MenuItem(user_id=2,
                      price="6.80",
                      course="Entree",
                      restaurant=restaurant4)
-session.add(menuItem6)
-session.commit()
+app.session.add(menuItem6)
+app.session.commit()
 
 
 # Menu for Tony's Bistro
 restaurant6 = Restaurant(user_id=1, name="Tony\'s Bistro", category="American")
-session.add(restaurant6)
-session.commit()
+app.session.add(restaurant6)
+app.session.commit()
 
 menuItem1 = MenuItem(user_id=1,
                      name="Shellfish Tower",
@@ -297,8 +291,8 @@ menuItem1 = MenuItem(user_id=1,
                      price="13.95",
                      course="Entree",
                      restaurant=restaurant6)
-session.add(menuItem1)
-session.commit()
+app.session.add(menuItem1)
+app.session.commit()
 
 menuItem2 = MenuItem(user_id=1,
                      name="Chicken and Rice",
@@ -306,8 +300,8 @@ menuItem2 = MenuItem(user_id=1,
                      price="4.95",
                      course="Entree",
                      restaurant=restaurant6)
-session.add(menuItem2)
-session.commit()
+app.session.add(menuItem2)
+app.session.commit()
 
 menuItem3 = MenuItem(user_id=1,
                      name="Mom's Spaghetti",
@@ -315,8 +309,8 @@ menuItem3 = MenuItem(user_id=1,
                      price="6.95",
                      course="Entree",
                      restaurant=restaurant6)
-session.add(menuItem3)
-session.commit()
+app.session.add(menuItem3)
+app.session.commit()
 
 menuItem4 = MenuItem(user_id=1,
                      name="Choc Full O\' Mint (Smitten\'s Fresh Mint Chip ice cream)",
@@ -324,8 +318,8 @@ menuItem4 = MenuItem(user_id=1,
                      price="3.95",
                      course="Dessert",
                      restaurant=restaurant6)
-session.add(menuItem4)
-session.commit()
+app.session.add(menuItem4)
+app.session.commit()
 
 menuItem5 = MenuItem(user_id=1,
                      name="Tonkatsu Ramen",
@@ -333,14 +327,14 @@ menuItem5 = MenuItem(user_id=1,
                      price="7.95",
                      course="Entree",
                      restaurant=restaurant6)
-session.add(menuItem5)
-session.commit()
+app.session.add(menuItem5)
+app.session.commit()
 
 
 # Menu for Andala's
 restaurant7 = Restaurant(user_id=2, name="Andala\'s", category="Asian")
-session.add(restaurant7)
-session.commit()
+app.session.add(restaurant7)
+app.session.commit()
 
 menuItem1 = MenuItem(user_id=1,
                      name="Lamb Curry",
@@ -348,8 +342,8 @@ menuItem1 = MenuItem(user_id=1,
                      price="9.95",
                      course="Entree",
                      restaurant=restaurant7)
-session.add(menuItem1)
-session.commit()
+app.session.add(menuItem1)
+app.session.commit()
 
 menuItem2 = MenuItem(user_id=2,
                      name="Chicken Marsala",
@@ -357,8 +351,8 @@ menuItem2 = MenuItem(user_id=2,
                      price="7.95",
                      course="Entree",
                      restaurant=restaurant7)
-session.add(menuItem2)
-session.commit()
+app.session.add(menuItem2)
+app.session.commit()
 
 menuItem3 = MenuItem(user_id=3,
                      name="Potstickers",
@@ -366,8 +360,8 @@ menuItem3 = MenuItem(user_id=3,
                      price="6.50",
                      course="Appetizer",
                      restaurant=restaurant7)
-session.add(menuItem3)
-session.commit()
+app.session.add(menuItem3)
+app.session.commit()
 
 menuItem4 = MenuItem(user_id=1,
                      name="Nigiri Sampler",
@@ -375,8 +369,8 @@ menuItem4 = MenuItem(user_id=1,
                      price="6.75",
                      course="Appetizer",
                      restaurant=restaurant7)
-session.add(menuItem4)
-session.commit()
+app.session.add(menuItem4)
+app.session.commit()
 
 menuItem5 = MenuItem(user_id=1,
                      name="Veggie Burger",
@@ -384,7 +378,7 @@ menuItem5 = MenuItem(user_id=1,
                      price="7.00",
                      course="Entree",
                      restaurant=restaurant7)
-session.add(menuItem5)
-session.commit()
+app.session.add(menuItem5)
+app.session.commit()
 
 print "Added menu items!"

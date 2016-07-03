@@ -25,11 +25,6 @@ from oauth2client.client import FlowExchangeError
 from modules import app
 from models import Base, User, Restaurant, MenuItem
 
-engine = create_engine('sqlite:///app.db')
-Base.metadata.bind = engine
-DBSession = sessionmaker(bind=engine)
-session = DBSession()
-
 
 ##############################################
 # RESTAURANT VIEWS
@@ -43,8 +38,9 @@ def showRestaurants():
     if 'username' not in login_session:
         return render_template('restaurant_public.html',
                                restaurants=restaurants)
-
-    return render_template('restaurant.html', restaurants=restaurants)
+    else:
+        user_id = login_session['user_id']
+        return render_template('restaurant.html', restaurants=restaurants, user_id=user_id)
 
 
 @app.route('/restaurants/search', methods=['GET', 'POST'])
@@ -75,8 +71,8 @@ def newRestaurant():
         category = request.form['category']
         user_id = login_session['user_id']
         restaurant = Restaurant(name=name, category=category, user_id=user_id)
-        session.add(restaurant)
-        session.commit()
+        app.session.add(restaurant)
+        app.session.commit()
         flash('New Restaurant Created!')
         return redirect(url_for('showRestaurants'))
 
@@ -103,10 +99,10 @@ def editRestaurant(restaurant_id):
         category = request.form['category']
         restaurant.name = name
         restaurant.category = category
-        session.add(restaurant)
-        session.commit()
+        app.session.add(restaurant)
+        app.session.commit()
         flash('Restaurant Successfully Edited!')
-        return redirect(url_for('showMenu', restaurant_id=restaurant.id))
+        return redirect(url_for('showRestaurants'))
 
     return render_template('editRestaurant.html', restaurant=restaurant)
 
@@ -127,8 +123,8 @@ def deleteRestaurant(restaurant_id):
         "<body onload='myFunction()''>"
 
     if request.method == 'POST':
-        session.delete(restaurant)
-        session.commit()
+        app.session.delete(restaurant)
+        app.session.commit()
         flash('Restaurant Successfully Deleted!')
         return redirect(url_for('showRestaurants'))
 
@@ -189,8 +185,8 @@ def newMenuItem(restaurant_id):
                             restaurant_id=restaurant_id,
                             user_id=user_id)
 
-        session.add(menuItem)
-        session.commit()
+        app.session.add(menuItem)
+        app.session.commit()
         flash('Menu Item Created!')
         return redirect(url_for('showMenu', restaurant_id=restaurant.id))
     else:
@@ -220,8 +216,8 @@ def editMenuItem(restaurant_id, menu_id):
         menuItem.description = request.form['description']
         menuItem.course = request.form['course']
 
-        session.add(menuItem)
-        session.commit()
+        app.session.add(menuItem)
+        app.session.commit()
         flash('Menu Item Successfully Edited')
         return redirect(url_for('showMenu', restaurant_id=restaurant_id))
     else:
@@ -251,8 +247,8 @@ def deleteMenuItem(restaurant_id, menu_id):
         "<body onload='myFunction()''>"
 
     if request.method == 'POST':
-        session.delete(menuItem)
-        session.commit()
+        app.session.delete(menuItem)
+        app.session.commit()
         flash('Menu Item Successfully Deleted')
         return redirect(url_for('showMenu', restaurant_id=restaurant_id))
     else:

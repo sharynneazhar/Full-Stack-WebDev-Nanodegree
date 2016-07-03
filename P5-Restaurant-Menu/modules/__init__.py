@@ -18,6 +18,7 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+app.session = session
 
 ###############################################
 # HELPER FUNCTIONS
@@ -30,14 +31,14 @@ def createUser(login_session):
     session.commit()
     return session.query(User)\
         .filter_by(email=login_session['email'])\
-        .one()
+        .first()
 app.createUser = createUser
 
 
 def getUserInfo(user_id):
     return session.query(User)\
         .filter_by(id=user_id)\
-        .one()
+        .first()
 app.getUserInfo = getUserInfo
 
 
@@ -62,7 +63,7 @@ app.getRestaurants = getRestaurants
 def getRestaurantsById(restaurant_id):
     return session.query(Restaurant)\
         .filter_by(id=restaurant_id)\
-        .one()
+        .first()
 app.getRestaurantsById = getRestaurantsById
 
 
@@ -84,5 +85,5 @@ app.getMenu = getMenu
 def getMenuItem(menu_id):
     return session.query(MenuItem)\
         .filter_by(id=menu_id)\
-        .one()
+        .first()
 app.getMenuItem = getMenuItem
