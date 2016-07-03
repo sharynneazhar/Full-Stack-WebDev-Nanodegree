@@ -51,7 +51,7 @@ ul li:hover {
 }
 
 .navbar {
-  background-image: url('../img/illustrations/bg-restaurant.png');
+  background-image: url('../img/illustrations/background.png');
   background-repeat: repeat;
   padding: 8px;
 }
@@ -208,7 +208,7 @@ ul li:hover {
   justify-content: center;
   height: 100vh;
   width: 100vw;
-  background-image: url('../img/illustrations/bg-restaurant.png');
+  background-image: url('../img/illustrations/background.png');
   background-repeat: repeat;
   padding: 100px;
 }
