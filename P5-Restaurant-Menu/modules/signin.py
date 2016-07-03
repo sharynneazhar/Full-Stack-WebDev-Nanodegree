@@ -143,9 +143,8 @@ def gconnect():
         user_id = app.createUser(login_session)
     login_session['user_id'] = user_id
 
-    output = ''
     flash("You are now logged in as %s" % login_session['username'])
-    return output
+    return redirect(url_for('showRestaurants'))
 
 
 # DISCONNECT - Revoke a current user's token and reset their login_session
