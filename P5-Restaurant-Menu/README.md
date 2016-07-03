@@ -15,7 +15,7 @@ You need to obtain your own secret keys from [Google API](https://console.develo
 
 ###### Run the Project
 * Run the virtual environment
-  * `cd /path/to/fs-nanodegree` into the repo 
+  * `cd /path/to/fs-nanodegree` into the repo
   * `vagrant up && vagrant ssh` to the Vagrant VM
   * `cd /vagrant/P5-Restaurant-Menu` into the project directory
 * Project Setup
@@ -23,9 +23,14 @@ You need to obtain your own secret keys from [Google API](https://console.develo
   * `python restaurantData.py` to fill in the database with mock data
   * `python app.py` to run the project
 * Run The Project
-  * Navigate to `localhost:5000` to see it working! 
+  * Navigate to `localhost:5000` to see it working!
 
 #### API Overview
 * `/api/restaurants/` to obtain a list of all restaurants
 * `/api/restaurants/<int:restaurant_id>/menu/` to obtain the menu list of a particular restaurant
 * `/api/restaurants/<int:restaurant_id>/menu/<int:menu_id>` to obtain details about a particular menu item
+
+#### Bugs / Future Improvements
+* Feature: Integrate Yelp API to include more robust restaurant data
+* Feature: Allow for multiple restaurant managers or roles (request access to edit/delete)
+* Bug: Google+ authentication throws JSON serializable error randomly
