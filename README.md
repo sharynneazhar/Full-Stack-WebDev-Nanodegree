@@ -2,7 +2,7 @@
 Learn how to create server-side, data-driven web applications that support any front-end and can scale to support hundreds of thousands of users.
 
 ## Co-Created By:
-<img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_google.png" alt="Logo color google" /> <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_aws.png" alt="Logo color aws" /> <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_github.png" alt="Logo color github" /> <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_att.png" alt="Logo color att" /> 
+<img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_google.png" alt="Logo color google" /> <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_aws.png" alt="Logo color aws" /> <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_github.png" alt="Logo color github" /> <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_att.png" alt="Logo color att" />
 
 ## Projects
 - [P1: Movie Trailer](#p1-movie-trailer)
@@ -12,22 +12,22 @@ Learn how to create server-side, data-driven web applications that support any f
 - [P5: Item Catalog](#p5-item-catalog)
 - [P6: Neighborhood Map](#p6-neighborhood-map)
 - [P7: Design a Game](#p7-design-a-game)
-- [P8: Linux Server Configuration](#p8-linux-server-configuration) 
+- [P8: Linux Server Configuration](#p8-linux-server-configuration)
 
 ## Project Descriptions
-#### P1: Movie Trailer 
+#### [P1: Movie Trailer](https://github.com/sharynneazhar/FSND-Movie-Trailers-P1)
 You will write server-side code to store a list of your favorite movies, including box art imagery and a movie trailer URL. You will then serve this data as a web page allowing visitors to review their movies and watch the trailers.
 
-#### P2: Build a Portfolio
+#### [P2: Build a Portfolio](https://github.com/sharynneazhar/FSND-Portfolio-P2)
 You will be provided with a design mockup as a PDF-file and must replicate that design in HTML and CSS.
 
-#### P3: Multi User Blog
+#### [P3: Multi User Blog](https://github.com/sharynneazhar/FSND-Blog-P3)
 In this project you will be building a multi user blog(along the lines of Medium) where users can sign in and post blog posts as well as 'Like' and 'Comment' on other posts made on the blog. You will be hosting this blog on Google App Engine and you will also be creating an authentication system for users to be able to register and sign in and then create blog posts!
 
-#### P4: Tournament Results
+#### [P4: Tournament Results](https://github.com/sharynneazhar/FSND-Tournament-Database-P4)
 You will develop a database schema to store the game matches between players. You will then write code to query this data and determine the winners of various games.
 
-#### P5: Item Catalog
+#### [P5: Item Catalog](https://github.com/sharynneazhar/FSND-Catalog-P5)
 You will develop an application that provides a list of items within a variety of categories as well as provide a user registration and authentication system. Registered users will have the ability to post, edit and delete their own items.
 
 #### P6: Neighborhood Map
