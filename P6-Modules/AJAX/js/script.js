@@ -1,6 +1,7 @@
 function loadData() {
   var GOOGLE_STREET_API = 'http://maps.googleapis.com/maps/api/streetview?size=600x300&location=';
   var NYT_API = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+  var WIKI_API = "http://en.wikipedia.org/w/api.php?action=opensearch&format=json&search=";
 
   var $body = $('body');
   var $wikiElem = $('#wikipedia-links');
@@ -60,6 +61,27 @@ function loadData() {
       $('.error').slideUp("slow");
     }, 2000);
   }
+
+  // load Wikipedia articles
+  WIKI_API += $city.val() + '&limit=10&callback=wikiCallback';
+
+  var wikiRequestTimeout = setTimeout(function() {
+    $wikiElem.text("Failed to get Wikipedia resources");
+  }, 5000);
+
+  $.ajax({
+    url: WIKI_API,
+    dataType: 'jsonp'
+  }).done(function(response) {
+    var articleList = response[1];
+    for (var article in articleList) {
+      articleStr = articleList[article];
+      var url = 'http://en.wikipedia.org/wiki/' + articleStr;
+      $wikiElem.append(
+        '<li><a href="' + url + '">' + articleStr + '</a></li>'
+      );
+    }
+  });
 
   return false;
 };
