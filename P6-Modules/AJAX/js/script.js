@@ -1,5 +1,6 @@
 function loadData() {
-  const GOOGLE_STREET_API = 'http://maps.googleapis.com/maps/api/streetview?size=600x300&location=';
+  var GOOGLE_STREET_API = 'http://maps.googleapis.com/maps/api/streetview?size=600x300&location=';
+  var NYT_API = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 
   var $body = $('body');
   var $wikiElem = $('#wikipedia-links');
@@ -16,8 +17,8 @@ function loadData() {
   $wikiElem.text("");
   $nytElem.text("");
 
-  // load streetview
   if ($street.val() && $city.val()) {
+    // load streetview
     var streetView = '<img class="bgimg" src="%data%" />';
     var address = $street.val() + ", " + $city.val();
 
@@ -26,6 +27,29 @@ function loadData() {
     );
 
     $greeting.text(address.toUpperCase());
+
+    // load NYT articles
+    NYT_API += '?' + $.param({
+      'api-key': 'XXXXXXXXXXXXXXXXXXXXX',
+      'q': address
+    });
+
+    $.getJSON(NYT_API, function(data) {
+      if (data.response.meta.hits > 0) {
+        $.each(data.response.docs, function(key, article) {
+          $nytElem.prepend(
+            '<li class="article">'
+            + '<a href="' + article.web_url + '">' + article.headline.main + '</a>'
+            + '<p>' + article.snippet + '</p>'
+            + '</li>'
+          );
+        });
+      } else {
+        $nytElem.html('<li>No articles found</li>');
+      }
+    }).error(function() {
+      $nytElem.html('<li>An error occurred. Please try again later.</li>');
+    });
 
   } else {
     $('form').append(
@@ -36,7 +60,6 @@ function loadData() {
       $('.error').slideUp("slow");
     }, 2000);
   }
-
 
   return false;
 };

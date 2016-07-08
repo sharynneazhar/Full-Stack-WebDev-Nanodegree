@@ -41,7 +41,7 @@ body {background-color: #CCC;}
 
 .article {
     list-style-type: none;
-    padding:10px;
+    padding:10px 0;
     border-top: 1px solid #CCC;
 }
 .article:first-child {
