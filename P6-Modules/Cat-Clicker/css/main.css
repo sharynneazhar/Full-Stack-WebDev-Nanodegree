@@ -1,0 +1,116 @@
+html, body {
+  padding: 10px 20px;
+  font-family: Open Sans, sans-serif;
+}
+
+h1 {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.cat-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.cat-list-item {
+  flex: 1;
+  background-color: #34b2f9;
+  border-radius: 8px;
+  list-style: none;
+  padding: 10px;
+  text-align: center;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.cat-list-item:not(:last-child) {
+  margin-right: 30px;
+}
+
+.cat-info {
+  display: flex;
+  flex-direction: row;
+  margin-top: 50px;
+}
+
+.cat-image img {
+  height: 300px;
+  width: 300px;
+  margin-right: 20px;
+  border-radius: 10px;
+}
+
+.cat-name {
+  display: flex;
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.cat-gender {
+  margin-top: 10px;
+  color: #a2a2a2;
+  font-size: 22px;
+  font-style: italic;
+}
+
+.cat-description {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.cat-clickCount {
+  position: relative;
+  top: 20px;
+  left: 38px;
+  text-align: center;
+  font-size: 16px;
+  color: #000;
+}
+
+.heart{
+  position: relative;
+  width: 32px;
+  height: 32px;
+}
+
+.heart:before,
+.heart:after {
+  z-index: -99;
+  position: absolute;
+  content: "";
+  left: 14px;
+  top: 20px;
+  width: 15px;
+  height: 23px;
+  background-color: #f7c3d2;
+  -moz-border-radius: 50px 50px 0 0;
+  border-radius: 50px 50px 0 0;
+  -webkit-transform: rotate(-45deg);
+   -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+     -o-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+  -webkit-transform-origin: 0 100%;
+   -moz-transform-origin: 0 100%;
+    -ms-transform-origin: 0 100%;
+     -o-transform-origin: 0 100%;
+        transform-origin: 0 100%;
+}
+
+.heart:after {
+  left: 0;
+  -webkit-transform: rotate(45deg);
+   -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+     -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+  -webkit-transform-origin: 100% 100%;
+   -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+     -o-transform-origin: 100% 100%;
+        transform-origin :100% 100%;
+}
