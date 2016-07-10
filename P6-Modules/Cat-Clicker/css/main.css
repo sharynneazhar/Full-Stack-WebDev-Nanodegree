@@ -44,8 +44,11 @@ h1 {
   border-radius: 10px;
 }
 
-.cat-name {
+.cat-name-area {
   display: flex;
+}
+
+.cat-name {
   font-size: 32px;
   font-weight: 600;
 }
@@ -64,15 +67,16 @@ h1 {
 
 .cat-clickCount {
   position: relative;
-  top: 20px;
+  top: 8px;
   left: 38px;
   text-align: center;
-  font-size: 16px;
+  font-size: 18px;
   color: #000;
 }
 
 .heart{
   position: relative;
+  margin-left: 15px;
   width: 32px;
   height: 32px;
 }
@@ -83,7 +87,7 @@ h1 {
   position: absolute;
   content: "";
   left: 14px;
-  top: 20px;
+  top: 10px;
   width: 15px;
   height: 23px;
   background-color: #f7c3d2;

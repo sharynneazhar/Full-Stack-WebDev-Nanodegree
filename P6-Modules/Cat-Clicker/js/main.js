@@ -9,6 +9,10 @@ var octopus = {
     catView.init();
   },
 
+  getCats: function() {
+    return cats.cats;
+  },
+
   getCurrentCat: function() {
     return cats.currentCat;
   },
@@ -33,7 +37,8 @@ var catListView = {
   },
 
   render: function() {
-    $.each(cats.cats, function(index, cat) {
+    var cats = octopus.getCats();
+    $.each(cats, function(index, cat) {
       $CATLIST.append(
         '<li class="cat-list-item ' + index + '">' + cat.name + '</li>'
       );
@@ -53,9 +58,11 @@ var catView = {
     $CATNAME = $('.cat-name');
     $CATGENDER = $('.cat-gender');
     $CATIMAGE = $('.cat-image');
+    $CATDESCRIPTION = $('.cat-description');
     $CATCLICKCOUNT = $('.cat-clickCount');
 
-    $CATIMAGE.on('click', function() {
+    var clickEvent = $('.cat-image, .heart');
+    clickEvent.on('click', function() {
       octopus.incrementCount();
     });
 
@@ -67,6 +74,7 @@ var catView = {
     $CATNAME.html(currentCat.name);
     $CATCLICKCOUNT.html(currentCat.clickCount);
     $CATGENDER.html(currentCat.gender);
+    $CATDESCRIPTION.html(currentCat.description);
     $CATIMAGE.html('<img src="' + currentCat.image + '" />');
   }
 
