@@ -1,6 +1,8 @@
 ## Full Stack Web Developer Nanodegree
 Learn how to create server-side, data-driven web applications that support any front-end and can scale to support hundreds of thousands of users.
 
+** You can visit the individual project repositories by clicking on the links below.
+
 ## Co-Created By:
 <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_google.png" alt="Logo color google" /> <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_aws.png" alt="Logo color aws" /> <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_github.png" alt="Logo color github" /> <img width="90px" src="https://s3-us-west-1.amazonaws.com/udacity-content/affilliates/logo_color_att.png" alt="Logo color att" />
 
