@@ -1,0 +1,154 @@
+html, body {
+  padding: 10px 20px;
+  font-family: Open Sans, sans-serif;
+}
+
+body {
+  width: 768px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.cat-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.cat-list-item {
+  flex: 1;
+  background-color: #34b2f9;
+  border-radius: 8px;
+  list-style: none;
+  padding: 10px;
+  text-align: center;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.cat-list-item:not(:last-child) {
+  margin-right: 30px;
+}
+
+.cat-info {
+  display: flex;
+  flex-direction: row;
+  margin-top: 50px;
+}
+
+.cat-image img {
+  height: 300px;
+  width: 300px;
+  margin-right: 20px;
+  border-radius: 10px;
+}
+
+.cat-name-area {
+  display: flex;
+}
+
+.cat-name {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.cat-stats {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  color: #a2a2a2;
+  font-size: 22px;
+  font-style: italic;
+}
+
+.cat-level {
+  padding-left: 10px;
+}
+
+.cat-level:before {
+  content: "(";
+}
+
+.cat-level:after {
+  content: ")";
+}
+
+.cat-description {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.cat-nicknames ul {
+  display: flex;
+  margin-top: 5px;
+  padding: 0;
+}
+
+.cat-nicknames ul li {
+  list-style: none;
+  margin-right: 15px;
+}
+
+.cat-nicknames ul li:after {
+  content: ",";
+}
+
+.cat-clickCount {
+  position: relative;
+  top: 8px;
+  left: 38px;
+  text-align: center;
+  font-size: 18px;
+  color: #000;
+}
+
+.heart{
+  position: relative;
+  margin-left: 15px;
+  width: 32px;
+  height: 32px;
+}
+
+.heart:before,
+.heart:after {
+  z-index: -99;
+  position: absolute;
+  content: "";
+  left: 14px;
+  top: 10px;
+  width: 15px;
+  height: 23px;
+  background-color: #f7c3d2;
+  -moz-border-radius: 50px 50px 0 0;
+  border-radius: 50px 50px 0 0;
+  -webkit-transform: rotate(-45deg);
+   -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+     -o-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+  -webkit-transform-origin: 0 100%;
+   -moz-transform-origin: 0 100%;
+    -ms-transform-origin: 0 100%;
+     -o-transform-origin: 0 100%;
+        transform-origin: 0 100%;
+}
+
+.heart:after {
+  left: 0;
+  -webkit-transform: rotate(45deg);
+   -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+     -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+  -webkit-transform-origin: 100% 100%;
+   -moz-transform-origin: 100% 100%;
+    -ms-transform-origin: 100% 100%;
+     -o-transform-origin: 100% 100%;
+        transform-origin :100% 100%;
+}

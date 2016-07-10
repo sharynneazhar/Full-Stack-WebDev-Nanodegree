@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cat Clicker</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet" charset="utf-8">
+</head>
+<body>
+
+  <h1>Cat Clicker!</h1>
+
+  <div class="cat-list-area">
+    <ul class="cat-list" data-bind="foreach: catList">
+        <li class="cat-list-item" data-bind="text: name, click: $parent.setCat"></li>
+    </ul>
+  </div>
+
+  <div class="cat-info" data-bind="with: currentCat">
+    <div class="cat-image">
+      <img src="" alt="Cat" data-bind="click: $parent.incrementCounter, attr: {src: imgSrc}">
+    </div>
+    <div class="cat-details">
+      <div class="cat-name-area">
+        <div class="cat-name" data-bind="text: name"></div>
+        <div class="heart">
+          <span class="cat-clickCount" data-bind="text: clickCount"></span>
+        </div>
+      </div>
+      <div class="cat-stats">
+        <div class="cat-gender" data-bind="text: gender"></div>
+        <div class="cat-level" data-bind="text: level"></div>
+      </div>
+      <div class="cat-description" data-bind="text:description"></div>
+      <div class="cat-nicknames">
+        Nicknames:
+        <ul data-bind="foreach: nicknames">
+          <li data-bind="text: $data"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="js/lib/knockout-3.2.0.js"></script>
+    <script src="js/cats.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
