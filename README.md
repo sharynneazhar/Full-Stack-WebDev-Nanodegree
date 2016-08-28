@@ -1,4 +1,6 @@
-## Full Stack Web Developer Nanodegree (Date Completed: August 28, 2016)
+## Full Stack Web Developer Nanodegree
+Date Completed: August 28, 2016
+
 Learn how to create server-side, data-driven web applications that support any front-end and can scale to support hundreds of thousands of users.
 
 ** You can visit the individual project repositories by clicking on the links below.
