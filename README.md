@@ -1,4 +1,4 @@
-## Full Stack Web Developer Nanodegree
+## Full Stack Web Developer Nanodegree (Date Completed: August 28, 2016)
 Learn how to create server-side, data-driven web applications that support any front-end and can scale to support hundreds of thousands of users.
 
 ** You can visit the individual project repositories by clicking on the links below.
@@ -32,11 +32,11 @@ You will develop a database schema to store the game matches between players. Yo
 #### [P5: Item Catalog](https://github.com/sharynneazhar/FSND-Catalog-P5)
 You will develop an application that provides a list of items within a variety of categories as well as provide a user registration and authentication system. Registered users will have the ability to post, edit and delete their own items.
 
-#### P6: Neighborhood Map
+#### [P6: Neighborhood Map](https://github.com/sharynneazhar/FSND-Neighborhood-Map-P6)
 You will develop a single-page application featuring a map of your neighborhood or a neighborhood you would like to visit. You will then add additional functionality to this application, including: map markers to identify popular locations or places you’d like to visit, a search function to easily discover these locations, and a listview to support simple browsing of all locations. You will then research and implement third-party APIs that provide additional information about each of these locations (such as StreetView images, Wikipedia articles, Yelp reviews, etc).
 
-#### P7: Design a Game
+#### [P7: Design a Game](https://github.com/sharynneazhar/FSND-Game-API-P7)
 In this project you will use these skills to develop your own game! You will write an API with endpoints that will allow anyone to develop a front-end for your game. Since you aren't required to write a front-end you can use API explorer to test your API.
 
-#### P8: Linux Server Configuration
+#### [P8: Linux Server Configuration](https://github.com/sharynneazhar/FSND-Linux-Server-P8)
 You will take a baseline installation of a Linux distribution on a virtual machine and prepare it to host your web applications, to include installing updates, securing it from a number of attack vectors and installing/configuring web and database servers.
